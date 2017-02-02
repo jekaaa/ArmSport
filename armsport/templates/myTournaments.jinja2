@@ -1,0 +1,20 @@
+{% extends "defaultMenu.jinja2" %}
+{% block title %}Мои мероприятия{% endblock %}
+{% block header %}
+    <li><a class="waves-effect waves-light hide-on-small-only" href="/all_tournaments">Все мероприятия</a></li>
+    <li class="active"><a class="waves-effect waves-light hide-on-small-only " href="/my_tournaments">Мои мероприятия</a></li>
+{% endblock %}
+{% block up %}
+    <li>
+        <a href="/new_tournament"><div class="collapsible-header black-text "><i class=" material-icons green-text">add</i>Добавить мероприятие</div></a>
+    </li>
+{% endblock %}
+{% block center %}
+    {% for event in events %}
+    <li class="collection-item avatar ">
+        <a href="/tournament/{{ event.id }}"><img src="../static/pyramid.png" class="black circle">
+        <span class="title black-text">{{ event.name}}</span>
+        <p class="black-text">{{ event.city }}</p></a>
+    </li>
+    {% endfor %}
+{% endblock %}

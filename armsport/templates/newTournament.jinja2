@@ -1,0 +1,76 @@
+{% extends "default.jinja2" %}
+{% block title %}Турнир{% endblock %}
+{% block header %}
+    <li><a class="waves-effect waves-light hide-on-small-only " href="/all_tournaments">Все мероприятия</a></li>
+    <li><a class="waves-effect waves-light hide-on-small-only" href="/my_tournaments">Мои мероприятия</a></li>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <form method="post" class="col s12 card-panel ">
+        <div class="row">
+            <div class="input-field col l12 m12 s12">
+                <input id="name" name="name" type="text" class="invalid" />
+                <label for="name">Название меропрития</label>
+            </div>
+
+            <div id="type" class="input-field col l4 m12 s12">
+                <select name="type" >
+                    <option>Мужчины</option>
+                    <option>Женщины</option>
+                    <option>Мужчины и женщины</option>
+                </select>
+            </div>
+
+            <div class="input-field col l4 m12 s12" >
+                <input id="weight_man" name="weight_man" type="text" class="invalid" />
+                <label for="weight_man">Весовые категории(мужчины)</label>
+            </div>
+
+             <div class="input-field col l4 m12 s12" style="display: none">
+                <input id="weight_woman" name="weight_woman" type="text" class="invalid" />
+                <label for="weight_woman">Весовые категории(женщины)</label>
+            </div>
+
+            <div class="input-field col l6 m12 s12" >
+                <input id="number_table" name="number_table" type="text" class="invalid" />
+                <label for="number_table">Количество столов</label>
+            </div>
+
+            <div class="input-field col l6 m12 s12">
+                <input id="city" name="city" type="text" class="validate" />
+                <label for="city">Город проведения</label>
+            </div>
+
+            <div class="input-field col l6 m12 s12 ">
+                <input id="date" name="date" class="validate" type="date"/>
+                <label for="date" class="active">Дата начала</label>
+            </div>
+
+            <div class="input-field col l6 m12 s12 ">
+                <input id="date2" name="date2" class="validate" type="date"/>
+                <label for="date2" class="active">Дата конца</label>
+            </div>
+
+            <div class="input-field col l6 m12 s12 ">
+                <input id="build" name="build" class="validate" type="text"/>
+                <label for="build">Название места проведения</label>
+            </div>
+
+            <div class="input-field col l6 m12 s12 ">
+                <input id="address" name="address" class="validate" type="text"/>
+                <label for="address">Адрес места проведения</label>
+            </div>
+
+            <div class="input-field col l12 m12 s12" >
+                <textarea id="description" name="description" class="materialize-textarea"></textarea>
+                <label for="description">Описание мероприятия</label>
+            </div>
+
+            <div class="input-field col offset-l5 l4 offset-m4 m4 offset-s3 s6">
+                <button type="submit" name="submitted" class="btn waves-effect waves-light green"><i class="material-icons right">trending_flat</i>Далее</button>
+            </div>
+        </div>
+    </form>
+    <script src="../static/list.js"></script>
+</div>
+{% endblock %}

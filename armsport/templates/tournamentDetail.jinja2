@@ -1,0 +1,230 @@
+{% extends "default.jinja2" %}
+{% block title %}{{ event.name }}{% endblock %}
+{% block header %}
+    <li><a class="waves-effect waves-light hide-on-small-only " href="/all_tournaments">Все мероприятия</a></li>
+    <li><a class="waves-effect waves-light hide-on-small-only" href="/my_tournaments">Мои мероприятия</a></li>
+{% endblock %}
+{% block content %}
+    {% if start %}
+        <div class="row " style="margin-top: 1%">
+            {% if not list_table %}
+                <div class="col l12 m12 s12" style="border: solid 1px lightgray;margin-left: 4%;margin-right: 4%;margin-bottom: 3%">
+                    <p class="center">Матчей нет</p>
+                </div>
+                {{ tournament }}
+            {% endif %}
+
+            {% for table in list_table%}
+                <form method="post">
+                    <div class="col l5 m5 s5" style="border: solid 1px lightgray;margin-left: 4%;margin-right: 4%;margin-bottom: 3%">
+                        <h6 class="center" style="border-bottom: solid 1px lightgray;margin-bottom: 5px;padding: 5px">СТОЛ {{ table[0].number }}</h6>
+                         <select name="weight_tournament" >
+                        {% for tournament in tournaments %}
+                            {% if table[0].tournament == tournament %}<option selected>{% else %}<option>
+                            {% endif %}{% if tournament.typeId == 2 %}М {% else %}Ж {% endif %}{{ tournament.weight }}кг {% if tournament.hand %}(правая){% else %}(левая){% endif %}
+                            </option>
+                        {% endfor %}
+                         </select>
+                        <div class="col m12 l12 s12">
+                            <img src="../static/red..png" class="circle" style="height: 40px">
+                            <img src="../static/blue..png" class="circle right" style="height: 40px">
+                        </div>
+
+                        <div name="winner1" class="col m4 l4 s4 ">
+                          <input name="plyer_win" type="radio" id="test1{{ table[0].number }}" />
+                          <label for="test1{{ table[0].number }}"></label>
+                        </div>
+
+                        <div class="col s4 l4 m4 center">Победитель</div>
+
+                        <div name="winner2" lass="col m4 l4 s4">
+                          <input name="plyer_win" type="radio" id="test2{{ table[0].number }}" />
+                          <label class="right" for="test2{{ table[0].number }}"></label>
+                        </div>
+
+                        <div name="names" class="col l12 m12 s12">
+                            {% if table[1][0]%}
+                            <h6 class="center"><span class="left">{{ table[1][0][0] }}</span> - <span class="right">{{ table[1][0][1] }}</span></h6>
+                            {% endif %}
+                        </div>
+
+
+                        <div name="fouls1" class="col l4 m4 s4">
+                            <h6>ФОЛЫ</h6>
+                            <input type="checkbox" id="one{{ table[0].number }}">
+                            <label for="one{{ table[0].number }}"></label>
+
+                            <input type="checkbox" id="two{{ table[0].number }}" />
+                            <label for="two{{ table[0].number }}"></label>
+                        </div>
+
+                        <div class="col l4 m4 s4 center-align">
+                            <h6>Разрыв</h6>
+                            <input type="checkbox" id="center{{ table[0].number }}" />
+                            <label style="padding:10px" for="center{{ table[0].number }}"></label>
+                        </div>
+
+                        <div name="fouls2" class="col l4 m4 s4 right-align">
+                            <h6 >ФОЛЫ</h6>
+                            <input type="checkbox" id="tree{{ table[0].number }}">
+                            <label for="tree{{ table[0].number }}"></label>
+                            <input type="checkbox" id="four{{ table[0].number }}" />
+                            <label style="padding:8px" for="four{{ table[0].number }}"></label>
+                        </div>
+
+                        <div class="col l12 m12 s12 " style="border: solid 1px lightgray;margin-top:10px;margin-bottom: 10px">
+                        <h6 class="center">Следующие:</h6>
+                        {% for t in table[1][1:] %}
+                            <h6 class="center">{{ t[0] }} - {{ t[1] }}</h6>
+                        {% endfor %}
+                        </div>
+
+                        <div name="sub" class="col l12 m12 s12 center" style="display:none">
+                            <button class="btn-flat" name="{{ table[0].number }}" type="submit"></button>
+                        </div>
+                    </div>
+
+                </form>
+            {% endfor %}
+        </div>
+        <a href="#modal1"></a>
+        <div id="modal1" class="modal">
+            <form>
+                <div class="modal-content">
+                    <h5 class="center">Подтверждение результата пары</h5>
+                    <p class="center"></p>
+                    <input name="winner" type="text" class="black-text" readonly="" />
+                </div>
+                <div class="modal-footer">
+                    <a class=" modal-close btn-flat">Отмена</a>
+                    <button name="confirm" type="submit" class=" modal-action btn-flat">Подтвердить</button>
+                </div>
+            </form>
+        </div>
+    {% else %}
+     <ul class="collapsible z-depth-0" data-collapsible="accordion">
+        <li>
+            {% if message %}
+            <div class="collapsible-header active"><i class="material-icons green-text">add</i>Добавить участника</div>
+            {% else %}
+                <div class="collapsible-header "><i class="material-icons green-text">add</i>Добавить участника</div>
+            {% endif %}
+
+            <div class="collapsible-body">
+                <div class="row">
+                    <form id="player" method="post" class="col s12 ">
+                        <div class="row">
+
+                            {% if event.typeId == 1 %}
+                                <input type="radio" name="sex" value="Женщина" style="display: none" checked>
+                            {% endif %}
+
+                            {% if event.typeId == 2 %}
+                                <input type="radio" name="sex" value="Мужчина"  style="display: none" checked>
+                            {% endif %}
+
+                            <div class="input-field offset-l1 offset-m1 col l5 m5 s12 ">
+                                <input id="middle_name" name="middle_name" class="invalid" type="text"/>
+                                <label for="middle_name">Фамилия участника</label>
+                            </div>
+
+                            <div class="input-field col l5 m5 s12 ">
+                                <input id="first_name" name="first_name" class="invalid" type="text"/>
+                                <label for="first_name">Имя участника</label>
+                            </div>
+
+                            <div class="input-field offset-l1 offset-m1 col l5 m5 s12 ">
+                                <input id="last_name" name="last_name" class="invalid" type="text"/>
+                                <label for="last_name">Отчество участника</label>
+                            </div>
+
+                            <div class="input-field col l5 m5 s12 ">
+                                <input id="age" name="age" class="validate" type="date"/>
+                                <label class="active" for="age">Дата рождения</label>
+                            </div>
+
+                            <div class="input-field offset-l1 offset-m1 col l5 m5 s12 ">
+                                <input id="weight" name="weight" class="invalid" type="text"/>
+                                <label for="weight">Вес участника</label>
+                            </div>
+
+                            <div class="input-field col l5 m5 s12 ">
+                                <input id="team" name="team" class="validate" type="text"/>
+                                <label for="team">Команда участника</label>
+                            </div>
+
+                            {% if event.typeId == 3 %}
+                            <div class="input-field offset-l1 offset-m1 col l5 m5 s12 ">
+                                <input id="man" type="radio" name="sex" value="Мужчина" checked>
+                                <label for="man">Мужчина</label>
+                            </div>
+                            <div class="input-field offset-l1 offset-m1 col l5 m5 s12 ">
+                                <input id="woman" type="radio" name="sex" value="Женщина">
+                                <label for="woman">Женщина</label>
+                            </div>
+                            {% endif %}
+
+                             <div class="input-field col l12 m12 s12 center-align">{{ message }}</div>
+
+                            <div class="input-field col offset-l5 l4 offset-m4 m4 offset-s3 s6">
+                               <button class="btn waves-effect waves-light green" type="submit" name="settings">готово</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </li>
+        {% if dict_tournaments_man %}
+        <li>
+            <div class="collapsible-header center">Мужчины</div>
+        </li>
+        {% endif %}
+        {% for weight in dict_tournaments_man %}
+        <li>
+            <div class="collapsible-header "><i class="material-icons green-text">keyboard_arrow_down</i>Весовая категория {{ weight[0] }}кг.</div>
+            <div class="collapsible-body">
+                <ul class="collection">
+                {% for player in weight[1]%}
+                <li class="collection-item ">
+                    <h6>{{ player.middle_name }} {{ player.first_name }} {{ player.last_name }}</h6>
+                    <h6>Дата рождения: {{ player.age }}</h6>
+                    <h6>Вес: {{ player.weight }}кг</h6>
+                    <h6>Команда: {{ player.team }}</h6>
+                </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </li>
+        {% endfor %}
+        {% if dict_tournaments_woman %}
+        <li>
+            <div class="collapsible-header center">Женщины </div>
+        </li>
+        {% endif %}
+        {% for weight in dict_tournaments_woman %}
+        <li>
+            <div class="collapsible-header "><i class="material-icons green-text">keyboard_arrow_down</i>Весовая категория {{ weight[0] }}кг.</div>
+            <div class="collapsible-body">
+                <ul class="collection">
+                {% for player in weight[1]%}
+                <li class="collection-item ">
+                    <h6>{{ player.middle_name }} {{ player.first_name }} {{ player.last_name }}</h6>
+                    <h6>Дата рождения: {{ player.age }}</h6>
+                    <h6>Вес: {{ player.weight }}кг</h6>
+                    <h6>Команда: {{ player.team }}</h6>
+                </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <form id="start" method="post">
+    <div class="row center">
+        <button class="btn waves-effect waves-light green " type="submit" name="start">Создать стартовые пары</button>
+    </div>
+    </form>
+    {% endif %}
+    <script src="../static/validationPlayer.js"></script>
+{% endblock %}

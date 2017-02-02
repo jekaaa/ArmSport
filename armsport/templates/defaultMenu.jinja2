@@ -1,0 +1,15 @@
+{% extends "default.jinja2" %}
+{% block content %}
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <ul class="collapsible z-depth-0" data-collapsible="accordion">
+                {% block up %}{% endblock %}
+            </ul>
+            {% if events %}
+            <ul class="collection ">
+                {% block center%}{% endblock %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
