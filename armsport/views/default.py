@@ -75,53 +75,44 @@ def first_tour(event,hand):
 
         number_games_in_tour = number_players_1tour / 2
 
-        i = 0
-        j = 1
+
+        #Туры в сетке виннеров
+        tour_win = 1
+        # Туры в сетке лузеров
+        tour_lose = 1
         #Количество халявщиков
         dif = number_players_1tour - number_players
         #Количество пар в первом туре
         pare = (number_players - dif)/2
-        #Index for players
+        #Индексы для игроков
         l = 0
-        #Создание всех туров сетки виннеров и заполнение 1 тура
-        while(i<number_players_1tour-1):
+        #Создание всех туров сетки и заполнение 1 тура
+        while(number_games_in_tour>0):
             k = 0
             while(k<number_games_in_tour):
-                if j == 1:
+                if tour_win == 1:
                     if pare>0:
-                        win_grid = WinGrid(tour=j, tournament=tournament)
+                        win_grid = WinGrid(tour=tour_win, tournament=tournament)
                         DBSession.add(win_grid)
                         win_grid.games.append(players[l])
                         win_grid.games.append(players[l+1])
                         l+=2
                         pare-=1
                     else:
-                        win_grid = WinGrid(tour=j, tournament=tournament,winner=players[l])
+                        win_grid = WinGrid(tour=tour_win, tournament=tournament,winner=players[l])
                         DBSession.add(win_grid)
                         l+=1
                 else:
-                    win_grid = WinGrid(tour=j, tournament=tournament)
-                    DBSession.add(win_grid)
+                    win_grid = WinGrid(tour=tour_win, tournament=tournament)
+                    lose_grid1 = LoseGrid(tour=tour_lose, tournament=tournament)
+                    lose_grid2 = LoseGrid(tour=tour_lose+1, tournament=tournament)
+                    DBSession.add_all([win_grid,lose_grid1,lose_grid2])
                 k += 1
-            i += number_games_in_tour
+
             number_games_in_tour//=2
-            j+=1
-
-
-        '''j = 0
-        k = 0
-        while (j < number_games_in_tour):
-            if len(players) % 2 == 1:
-                if k == len(players) - 1:
-                    win_grid = WinGrid(tour=1, tournament=tournament, winner=players[k])
-                    DBSession.add(win_grid)
-                    break
-            win_grid = WinGrid(tour=1, tournament=tournament)
-            DBSession.add(win_grid)
-            win_grid.games.append(players[k])
-            win_grid.games.append(players[k+1])
-            j += 1
-            k += 2'''
+            if tour_win !=1:
+                tour_lose += 2
+            tour_win+=1
 
 def tournaments_for_player(tournaments_left,tournaments_right,weight):
     list = []
@@ -424,25 +415,7 @@ def td_view(request):
                 DBSession.add(t)
                 i += 1
 
-        #Бинарное дерево для хранения сетки виннеров
-        for tournament in tournaments:
-            binary_tree = []
-            all_tours = DBSession.query(WinGrid).filter_by(tournament=tournament).all()
-            i = len(all_tours)-1
-            while(i>=0):
-                binary_tree.append(all_tours[i])
-                i-=1
-            i=0
-            while(i<len(binary_tree)/2-1):
-                if(not binary_tree[i].winner):
-                    if(not len(binary_tree[i].games)==2):
-                        if (binary_tree[2*i+1].winner and binary_tree[2*i+1].winner not in binary_tree[i].games):
-                            binary_tree[i].games.append(binary_tree[2*i+1].winner)
-                        if (binary_tree[2*i+2].winner and binary_tree[2*i+2].winner not in binary_tree[i].games):
-                            binary_tree[i].games.append(binary_tree[2 * i + 2].winner)
-                i+=1
-
-        #Вывод турниров на столы
+        # Вывод турниров на столы
         for table in tables:
             if str(table.number) in request.params:
                 if 'weight_tournament' in request.params:
@@ -455,22 +428,33 @@ def td_view(request):
                         t = DBSession.query(Tournament).filter_by(event=event, weight=weight.split('к')[0][2:],hand=0,type=type).first()
                         table.tournament = t
 
-
-            #dict_table[table.number] = table.tournament.win_grids
             games = []
             for w in table.tournament.win_grids:
                 full_list = []
-                if w.winnerId is None:
+                if not w.winnerId and len(w.games)>0:
                     for l in w.games:
                         full_name = l.middle_name + " " + l.first_name
                         full_list.append(full_name)
                     games.append(full_list)
                     dict_table[table] = games
                 else:
-                    dict_table[table]=[]
+                    dict_table[table] = []
 
-            list_table = gold_sort_tables(dict_table)
+            for w in table.tournament.lose_grids:
+                full_list = []
+                if not w.winnerId and len(w.games)>0:
+                    for l in w.games:
 
+                        full_name = l.middle_name + " " + l.first_name
+                        full_list.append(full_name)
+                    games.append(full_list)
+                    dict_table[table] = games
+                else:
+                    dict_table[table] = games
+
+        list_table = gold_sort_tables(dict_table)
+
+        # Определение победителя в каком-либо матче
         if 'confirm' in request.params :
             winner = request.params['winner'] if 'winner' in request.params else ""
             split_winner = winner.split(' ')
@@ -486,11 +470,81 @@ def td_view(request):
                 player_win = DBSession.query(Player).filter_by(event=event,first_name=first_name,middle_name=middle_name).first()
 
                 for w in tournament.win_grids:
-                    if w.winnerId is None:
+                    if not w.winnerId:
                         if player_win in w.games:
                             w.winner = player_win
                             break
 
+                for w in tournament.lose_grids:
+                    if not w.winnerId:
+                        if player_win in w.games:
+                            w.winner = player_win
+                            break
+
+                # Бинарное дерево для хранения сетки
+                binary_tree_win = DBSession.query(WinGrid).filter_by(tournament=tournament).all()[::-1]
+                binary_tree_lose = sorted(DBSession.query(LoseGrid).filter(LoseGrid.tour % 2 == 1,
+                                                                           LoseGrid.tournament == tournament).all(),
+                                          key=lambda x: x.tour, reverse=True)
+                binary_tree_mix = sorted(DBSession.query(LoseGrid).filter(LoseGrid.tour % 2 == 0,
+                                                                          LoseGrid.tournament == tournament).all(),
+                                         key=lambda x: x.tour, reverse=True)
+                # Заполнение первого тура нижней сетки
+                i = 0
+                while (i < len(binary_tree_win)):
+                    if (binary_tree_win[i].tour == 1 and binary_tree_win[i].winner):
+                        if (len(binary_tree_lose[math.floor((i - 1) / 2)].games) != 2 and len(
+                                binary_tree_win[i].games) == 2):
+                            loser = binary_tree_win[i].games[1] if (
+                            binary_tree_win[i].winner == binary_tree_win[i].games[0]) else binary_tree_win[i].games[
+                                0]
+                            if (loser not in binary_tree_lose[math.floor((i - 1) / 2)].games):
+                                binary_tree_lose[math.floor((i - 1) / 2)].games.append(loser)
+                    i += 1
+                # Заполнение верхней сетки и помещение проигравших в нижнюю
+                i = 0
+                while (i < len(binary_tree_win) / 2 - 1):
+                    if (not binary_tree_win[i].winner):
+                        if (len(binary_tree_win[i].games) != 2):
+                            if (binary_tree_win[2 * i + 1].winner and binary_tree_win[2 * i + 1].winner not in
+                                binary_tree_win[i].games):
+                                binary_tree_win[i].games.append(binary_tree_win[2 * i + 1].winner)
+                            if (binary_tree_win[2 * i + 2].winner and binary_tree_win[2 * i + 2].winner not in
+                                binary_tree_win[i].games):
+                                binary_tree_win[i].games.append(binary_tree_win[2 * i + 2].winner)
+                    else:
+                        if (len(binary_tree_win[i].games) == 2):
+                            loser = binary_tree_win[i].games[1] if (
+                            binary_tree_win[i].winner == binary_tree_win[i].games[0]) else binary_tree_win[i].games[
+                                0]
+                            if (loser not in binary_tree_mix[i].games):
+                                binary_tree_mix[i].games.append(loser)
+                    i += 1
+
+                # Заполнение нижней сетки
+                i = 0
+                while (i < len(binary_tree_lose)):
+                    if (not binary_tree_lose[i].winner and binary_tree_lose[i].tour == 1 and binary_tree_win[
+                                2 * i + 1].winner and len(binary_tree_win[2 * i + 1].games) == 0
+                        and len(binary_tree_win[2 * i + 2].games) == 2 and binary_tree_win[2 * i + 2].winner):
+                        loser = binary_tree_win[2 * i + 2].games[1] if (
+                        binary_tree_win[2 * i + 2].winner == binary_tree_win[2 * i + 2].games[0]) else \
+                        binary_tree_win[2 * i + 2].games[0]
+                        binary_tree_lose[i].winner = loser
+                    if (not binary_tree_mix[i].winner and binary_tree_win[i].winner and len(
+                            binary_tree_lose[i].games) == 0 and not binary_tree_lose[i].winner):
+                        loser = binary_tree_win[i].games[1] if (
+                        binary_tree_win[i].winner == binary_tree_win[i].games[0]) else binary_tree_win[i].games[0]
+                        binary_tree_mix[i].winner = loser
+                    i += 1
+                i = 0
+                while (i < len(binary_tree_lose)):
+                    if (binary_tree_lose[i].winner and binary_tree_lose[i].winner not in binary_tree_mix[i].games):
+                        binary_tree_mix[i].games.append(binary_tree_lose[i].winner)
+                    if (binary_tree_mix[i].winner and binary_tree_mix[i].winner not in binary_tree_lose[
+                        math.floor((i - 1) / 2)].games):
+                        binary_tree_lose[math.floor((i - 1) / 2)].games.append(binary_tree_mix[i].winner)
+                    i += 1
                 return HTTPFound(location="/tournament/" + str(event.id))
 
         if request.matched_route.name == 'api_tournament_detail':
@@ -539,30 +593,3 @@ def td_view(request):
         }
     else:
         return HTTPNotFound()
-'''
-@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-def my_view(request):
-    try:
-        query = request.dbsession.query(MyModel)
-        one = query.filter(MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': one, 'project': 'armsport'}
-
-
-db_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
-
-1.  You may need to run the "initialize_armsport_db" script
-    to initialize your database tables.  Check your virtual
-    environment's "bin" directory for this script and try to run it.
-
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
-
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
-'''
