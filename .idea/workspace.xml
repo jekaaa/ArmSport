@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ebf8e072-625b-430b-a4d2-76e54fe04ad6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport.sqlite" afterPath="$PROJECT_DIR$/armsport.sqlite" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/models.py" afterPath="$PROJECT_DIR$/armsport/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/static/validationPlayer.js" afterPath="$PROJECT_DIR$/armsport/static/validationPlayer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/allTournaments.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/allTournaments.jinja2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/default.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/default.jinja2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/views/default.py" afterPath="$PROJECT_DIR$/armsport/views/default.py" />
     </list>
     <ignored path="armsport.iws" />
     <ignored path=".idea/workspace.xml" />
