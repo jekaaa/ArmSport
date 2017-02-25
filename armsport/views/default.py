@@ -92,20 +92,20 @@ def first_tour(event,hand):
             while(k<number_games_in_tour):
                 if tour_win == 1:
                     if pare>0:
-                        win_grid = WinGrid(tour=tour_win, tournament=tournament)
+                        win_grid = WinGrid(tour=tour_win, tournament=tournament,gap=False,first_fouls=0,second_fouls=0)
                         DBSession.add(win_grid)
                         win_grid.games.append(players[l])
                         win_grid.games.append(players[l+1])
                         l+=2
                         pare-=1
                     else:
-                        win_grid = WinGrid(tour=tour_win, tournament=tournament,winner=players[l])
+                        win_grid = WinGrid(tour=tour_win, tournament=tournament,winner=players[l],gap=False,first_fouls=0,second_fouls=0)
                         DBSession.add(win_grid)
                         l+=1
                 else:
-                    win_grid = WinGrid(tour=tour_win, tournament=tournament)
-                    lose_grid1 = LoseGrid(tour=tour_lose, tournament=tournament)
-                    lose_grid2 = LoseGrid(tour=tour_lose+1, tournament=tournament)
+                    win_grid = WinGrid(tour=tour_win, tournament=tournament,gap=False,first_fouls=0,second_fouls=0)
+                    lose_grid1 = LoseGrid(tour=tour_lose, tournament=tournament,gap=False,first_fouls=0,second_fouls=0)
+                    lose_grid2 = LoseGrid(tour=tour_lose+1, tournament=tournament,gap=False,first_fouls=0,second_fouls=0)
                     DBSession.add_all([win_grid,lose_grid1,lose_grid2])
                 k += 1
 
@@ -113,6 +113,9 @@ def first_tour(event,hand):
             if tour_win !=1:
                 tour_lose += 2
             tour_win+=1
+        # Создание финала
+        final = Final(tournament=tournament,gap=False,first_fouls=0,second_fouls=0)
+        DBSession.add(final)
 
 def tournaments_for_player(tournaments_left,tournaments_right,weight):
     list = []
@@ -417,6 +420,7 @@ def td_view(request):
 
         # Вывод турниров на столы
         for table in tables:
+            # Определение турнира на стол
             if str(table.number) in request.params:
                 if 'weight_tournament' in request.params:
                     weight = request.params['weight_tournament']
@@ -428,30 +432,58 @@ def td_view(request):
                         t = DBSession.query(Tournament).filter_by(event=event, weight=weight.split('к')[0][2:],hand=0,type=type).first()
                         table.tournament = t
 
+            # Формирование игр на столе
             games = []
             for w in table.tournament.win_grids:
-                full_list = []
-                if not w.winnerId and len(w.games)>0:
-                    for l in w.games:
-                        full_name = l.middle_name + " " + l.first_name
-                        full_list.append(full_name)
-                    games.append(full_list)
-                    dict_table[table] = games
+                if not w.winnerId and len(w.games) > 0 and w.tour == 1:
+                    #games.append([(str(w.tour)+"A",l.middle_name + " " + l.first_name) for l in w.games])
+                    games.append((str(w.tour)+"A",w))
+            i=2
+            j=1
+            tours = math.log2(len(DBSession.query(WinGrid).filter_by(tournament=table.tournament).all())+1)
+
+            while(i<=tours):
+                for w in table.tournament.win_grids:
+                    if not w.winnerId and len(w.games) > 0 and w.tour==i:
+                        #games.append([(str(w.tour)+"A",l.middle_name + " " + l.first_name) for l in w.games])
+                        games.append((str(w.tour)+"A",w))
+
+                for w in table.tournament.lose_grids:
+                    if not w.winnerId and len(w.games) > 0 and w.tour == j:
+                        #games.append([(str(w.tour)+"B",l.middle_name + " " + l.first_name) for l in w.games])
+                        games.append((str(w.tour)+"B",w))
+
+
+                for w in table.tournament.lose_grids:
+                    if not w.winnerId and len(w.games) > 0 and w.tour == j+1:
+                        #games.append([(str(w.tour)+"B",l.middle_name + " " + l.first_name) for l in w.games])
+                        games.append((str(w.tour)+"B", w))
+                j+=2
+                i+=1
+
+            if not table.tournament.final[0].winnerId and len(table.tournament.final[0].games) > 0:
+                #games.append([("Финал",l.middle_name + " " + l.first_name) for l in table.tournament.final[0].games])
+                games.append(("Финал", table.tournament.final[0]))
+            #Формирование словаря со столами
+            dict_table[table] = games
+
+            if str(table.number) + "f" in request.params:
+                dict_table[table][0][1].gap = True if "gap" in request.params else False
+                if "first_foul_1" in request.params and "second_foul_1" in request.params:
+                    dict_table[table][0][1].first_fouls = 2
+                elif "first_foul_1" in request.params or "second_foul_1" in request.params:
+                    dict_table[table][0][1].first_fouls = 1
                 else:
-                    dict_table[table] = []
-
-            for w in table.tournament.lose_grids:
-                full_list = []
-                if not w.winnerId and len(w.games)>0:
-                    for l in w.games:
-
-                        full_name = l.middle_name + " " + l.first_name
-                        full_list.append(full_name)
-                    games.append(full_list)
-                    dict_table[table] = games
+                    dict_table[table][0][1].first_fouls = 0
+                if "first_foul_2" in request.params and "second_foul_2" in request.params:
+                    dict_table[table][0][1].second_fouls = 2
+                elif "first_foul_2" in request.params or "second_foul_2" in request.params:
+                    dict_table[table][0][1].second_fouls = 1
                 else:
-                    dict_table[table] = games
+                    dict_table[table][0][1].second_fouls = 0
 
+
+        #Сортировка словаря
         list_table = gold_sort_tables(dict_table)
 
         # Определение победителя в каком-либо матче
@@ -481,6 +513,12 @@ def td_view(request):
                             w.winner = player_win
                             break
 
+                for w in tournament.final:
+                    if not w.winnerId:
+                        if player_win in w.games:
+                            w.winner = player_win
+                            break
+
                 # Бинарное дерево для хранения сетки
                 binary_tree_win = DBSession.query(WinGrid).filter_by(tournament=tournament).all()[::-1]
                 binary_tree_lose = sorted(DBSession.query(LoseGrid).filter(LoseGrid.tour % 2 == 1,
@@ -489,6 +527,13 @@ def td_view(request):
                 binary_tree_mix = sorted(DBSession.query(LoseGrid).filter(LoseGrid.tour % 2 == 0,
                                                                           LoseGrid.tournament == tournament).all(),
                                          key=lambda x: x.tour, reverse=True)
+                final = DBSession.query(Final).filter_by(tournament=tournament).first()
+
+                # Заполнение финала
+                if (binary_tree_win[0].winner and binary_tree_mix[0].winner and len(final.games)!=2):
+                    final.games.append(binary_tree_win[0].winner)
+                    final.games.append(binary_tree_mix[0].winner)
+
                 # Заполнение первого тура нижней сетки
                 i = 0
                 while (i < len(binary_tree_win)):

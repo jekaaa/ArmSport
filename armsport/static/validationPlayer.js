@@ -42,36 +42,59 @@ $("#player").submit(function () {
     
 });
 
-$("[name='fouls1'] input,[name='fouls2'] input").change(function () {
-    console.log($("[name='fouls1']").length)
-    //$('.modal').siblings('a').click()
-    
-});
-
 $("[name='weight_tournament']").change(function (event) {
-    console.log($(event.target).siblings())
-    $(event.target).parent().siblings("[name='sub']").children().click()
+    $(this).parent().siblings("[name='sub']").children().click();
+    //$(event.target).parent().siblings("[name='sub']").children().click();
 });
 
-$("[name='winner1'] input,[name='winner2'] input").change(function (event) {
-    var pare = $(this).parent().siblings('[name="names"]').text()
+var tempChecked = null;
+var tempRadio = null;
+
+$("[name='gap'],[name='first_foul_1'],[name='second_foul_1'],[name='first_foul_2'],[name='second_foul_2']").change(function (event) {
+    var sub = true;
+    var pare = $(this).parent().siblings('[name="names"]').text();
+    console.log(pare);
     $('.modal-content p').text(pare);
     var winner1 = $.trim(pare.split('-')[0]);
     var winner2 = $.trim(pare.split('-')[1]);
-    if($(event.target).is("[name='winner1'] input:checked")){
-        $('.modal-content input').val("Победитель: " + winner1 + " " + $(event.target).parent().siblings(".select-wrapper").children('input').val());
+    var weight = $.trim($(this).parent().siblings(".select-wrapper").children('input').val());
+    if($(this).is("[name='second_foul_1']:checked")) {
+        if($(this).siblings("[name='first_foul_1']").is(":checked")) {
+            sub = false;
+            $('.modal-content input').val("Победитель: " + winner2 + " " + weight);
+            $('.modal').siblings('a').click();
+            tempChecked = $(this);
+        }
     }
-    if($(event.target).is("[name='winner2'] input:checked")){
-        $('.modal-content input').val("Победитель: " + winner2 + " " + $(event.target).parent().siblings(".select-wrapper").children('input').val());
+    if($(this).is("[name='second_foul_2']:checked")) {
+        if($(this).siblings("[name='first_foul_2']").is(":checked")) {
+            sub = false;
+            $('.modal-content input').val("Победитель: " + winner1 + " " + weight);
+            $('.modal').siblings('a').click();
+            tempChecked = $(this);
+        }
     }
-    if(winner1 !="" && winner2 !="") {
-        $('.modal').siblings('a').click();
-    }
+
+    if(sub) $(this).parent().siblings("[name='fouls']").children().click();
 });
-/*$("#weight_tournament").change(function () {
 
-    //$(name).ajaxSubmit({url: window.location.href, type: 'post'})
-    var form = $(this).parent().parent();
-    $(form).ajaxSubmit({url: window.location.href, type: 'post'});
+$("[name='close']").click(function () {
+    if(tempChecked)tempChecked.prop("checked",false);
+    if(tempRadio)tempRadio.prop("checked",false);
+});
 
-});*/
+$("[name='winner1'] input,[name='winner2'] input").change(function (event) {
+    var pare = $(this).parent().siblings('[name="names"]').text();
+    $('.modal-content p').text(pare);
+    var winner1 = $.trim(pare.split('-')[0]);
+    var winner2 = $.trim(pare.split('-')[1]);
+    var weight = $.trim($(this).parent().siblings(".select-wrapper").children('input').val());
+    if($(this).is("[name='winner1'] input:checked")){
+        $('.modal-content input').val("Победитель: " + winner1 + " " + weight);
+    }
+    if($(this).is("[name='winner2'] input:checked")){
+        $('.modal-content input').val("Победитель: " + winner2 + " " + weight);
+    }
+    tempRadio = $(this);
+    $('.modal').siblings('a').click();
+});

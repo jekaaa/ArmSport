@@ -42,6 +42,11 @@ games_lose_grid = Table('games_lose_grid', Base.metadata,
     Column('player_id', Integer, ForeignKey('player.id')),
     Column('lose_grid_id', Integer, ForeignKey('lose_grid.id')))
 
+final_grid = Table('games_final', Base.metadata,
+    Column('player_id', Integer, ForeignKey('player.id')),
+    Column('final_id', Integer, ForeignKey('final.id'))
+)
+
 class Player(Base):
     __tablename__ = 'player'
     id = Column(Integer, primary_key=True)
@@ -71,14 +76,18 @@ class Tournament(Base):
     type = relationship("Type",backref="tournaments")
     event = relationship("Event", backref="tournaments")
 
-'''class TournamentForPlayer(Base):
-    __tablename__ = 'tournament_for_player'
+class Final(Base):
+    __tablename__= "final"
     id = Column(Integer, primary_key=True)
     tournamentId = Column(Integer, ForeignKey('tournament.id'))
-    playerId = Column(Integer, ForeignKey('player.id'))
+    winnerId = Column(Integer, ForeignKey('player.id'))
+    gap = Column(Boolean)
+    first_fouls = Column(Integer)
+    second_fouls = Column(Integer)
 
-    player = relationship("Player",backref="tournaments_for_player")
-    tournament = relationship("Tournament", backref="tournaments_for_player")'''
+    games = relationship("Player", secondary=final_grid)
+    tournament = relationship("Tournament", backref="final")
+    winner = relationship("Player", backref="final")
 
 class WinGrid(Base):
     __tablename__ = "win_grid"
@@ -86,6 +95,9 @@ class WinGrid(Base):
     tour = Column(Integer)
     tournamentId = Column(Integer, ForeignKey('tournament.id'))
     winnerId = Column(Integer, ForeignKey('player.id'))
+    gap = Column(Boolean)
+    first_fouls = Column(Integer)
+    second_fouls = Column(Integer)
 
     games = relationship("Player",secondary=games_win_grid)
     tournament = relationship("Tournament", backref="win_grids")
@@ -101,34 +113,19 @@ class Table(Base):
     event = relationship("Event",backref="tables")
     tournament = relationship("Tournament", backref="tables")
 
-'''class GameWinGrid(Base):
-    __tablename__ = "game_win_grid"
-    id = Column(Integer, primary_key=True)
-    winGridId = Column(Integer, ForeignKey('win_grid.id'))
-    playerId = Column(Integer, ForeignKey('player.id'))
-
-    win_grids = relationship ("WinGrid",backref="games_win_grid")
-    player = relationship("Player", backref="games_win_grid")'''
-
 class LoseGrid(Base):
     __tablename__ = "lose_grid"
     id = Column(Integer, primary_key=True)
     tour = Column(Integer)
     tournamentId = Column(Integer, ForeignKey('tournament.id'))
     winnerId = Column(Integer, ForeignKey('player.id'))
+    gap = Column(Boolean)
+    first_fouls = Column(Integer)
+    second_fouls = Column(Integer)
 
     games = relationship("Player",secondary=games_lose_grid)
     tournament = relationship("Tournament", backref="lose_grids")
     winner = relationship("Player", backref="lose_grids")
-
-'''class GameLoseGrid(Base):
-    __tablename__ = "game_lose_grid"
-    id = Column(Integer, primary_key=True)
-    loseGridId = Column(Integer, ForeignKey('lose_grid.id'))
-    playerId = Column(Integer, ForeignKey('player.id'))
-
-    loseGrid = relationship ("LoseGrid",backref="games_lose_grid")
-    player = relationship("Player", backref="games_lose_grid")'''
 
 class Event(Base):
     __tablename__ = 'event'

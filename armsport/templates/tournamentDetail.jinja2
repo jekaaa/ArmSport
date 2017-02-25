@@ -11,14 +11,12 @@
                 <div class="col l12 m12 s12" style="border: solid 1px lightgray;margin-left: 4%;margin-right: 4%;margin-bottom: 3%">
                     <p class="center">Матчей нет</p>
                 </div>
-                {{ tournament }}
             {% endif %}
 
             {% for table in list_table%}
                 <form method="post">
-
                     <div class="col l5 m5 s5" style="border: solid 1px lightgray;margin-left: 4%;margin-right: 4%;margin-bottom: 3%">
-                        <h6 class="center" style="border-bottom: solid 1px lightgray;margin-bottom: 5px;padding: 5px">СТОЛ {{ table[0].number }}</h6>
+                        <h6 class="center" style="margin-bottom: 5px;padding: 5px">СТОЛ {{ table[0].number }}</h6>
                          <select name="weight_tournament" >
                         {% for tournament in tournaments %}
                             {% if table[0].tournament == tournament %}<option selected>{% else %}<option>
@@ -26,59 +24,99 @@
                             </option>
                         {% endfor %}
                          </select>
+
                         <div class="col m12 l12 s12">
                             <img src="../static/red..png" class="circle" style="height: 40px">
                             <img src="../static/blue..png" class="circle right" style="height: 40px">
+                            {% if not table[1][0] %}
+                                <h6 class="center " style="padding:10px">Матчей нет</h6>
+                            {% endif %}
+                        </div>
+
+                        {% if table[1][0]%}
+                        <div class="col l12 m12 s12">
+                            <h6 class="center">{% if table[1][0][0]!="Финал" %}Тур {% endif %}{{ table[1][0][0] }}</h6>
                         </div>
 
                         <div name="winner1" class="col m4 l4 s4 ">
-                          <input name="plyer_win" type="radio" id="test1{{ table[0].number }}" />
+                          <input type="radio" id="test1{{ table[0].number }}" />
                           <label for="test1{{ table[0].number }}"></label>
                         </div>
 
                         <div class="col s4 l4 m4 center">Победитель</div>
 
-                        <div name="winner2" lass="col m4 l4 s4">
-                          <input name="plyer_win" type="radio" id="test2{{ table[0].number }}" />
+                        <div name="winner2" class="col m4 l4 s4">
+                          <input  type="radio" id="test2{{ table[0].number }}" />
                           <label class="right" for="test2{{ table[0].number }}"></label>
                         </div>
 
                         <div name="names" class="col l12 m12 s12">
-                            {% if table[1][0]%}
-                            <h6 class="center"><span class="left">{{ table[1][0][0] }}</span> - <span class="right">{{ table[1][0][1] }}</span></h6>
+
+                            <h6 class="center">
+                                <span class="left">{{ table[1][0][1].games[0].middle_name + " " + table[1][0][1].games[0].first_name}}</span> -
+                                <span class="right">{% if table[1][0][1].games[1] %}{{ table[1][0][1].games[1].middle_name + " " + table[1][0][1].games[1].first_name}}{% endif %}</span>
+                            </h6>
+
+                        </div>
+                        {% endif %}
+                        <form>
+                            {% if table[1][0] %}
+                            <div name="fouls1" class="col l4 m4 s4">
+                                <h6>ФОЛЫ</h6>
+                                {% if table[1][0][1].first_fouls > 0%}
+                                    <input name="first_foul_1" type="checkbox" id="one{{ table[0].number }}" checked>
+                                {% else %}
+                                    <input name="first_foul_1" type="checkbox" id="one{{ table[0].number }}">
+                                {% endif %}
+                                <label for="one{{ table[0].number }}"></label>
+
+                                {% if table[1][0][1].first_fouls == 2%}
+                                    <input name="second_foul_1" type="checkbox" id="two{{ table[0].number }}" checked/>
+                                {% else %}
+                                    <input name="second_foul_1" type="checkbox" id="two{{ table[0].number }}" />
+                                {% endif %}
+                                <label for="two{{ table[0].number }}"></label>
+                            </div>
+
+                            <div class="col l4 m4 s4 center-align">
+                                <h6>Разрыв</h6>
+                                {% if table[1][0][1].gap%}
+                                    <input name="gap" type="checkbox" id="center{{ table[0].number }}" checked/>
+                                {% else %}
+                                    <input name="gap" type="checkbox" id="center{{ table[0].number }}" />
+                                {% endif %}
+                                <label style="padding:10px" for="center{{ table[0].number }}"></label>
+                            </div>
+
+                            <div name="fouls2" class="col l4 m4 s4 right-align">
+                                <h6 >ФОЛЫ</h6>
+                                {% if table[1][0][1].second_fouls > 0%}
+                                    <input name="first_foul_2" type="checkbox" id="tree{{ table[0].number }}" checked>
+                                {% else %}
+                                    <input name="first_foul_2" type="checkbox" id="tree{{ table[0].number }}">
+                                {% endif %}
+                                <label for="tree{{ table[0].number }}"></label>
+
+                                {% if table[1][0][1].second_fouls == 2%}
+                                    <input name="second_foul_2" type="checkbox" id="four{{ table[0].number }}" checked/>
+                                {% else %}
+                                    <input name="second_foul_2" type="checkbox" id="four{{ table[0].number }}" />
+                                {% endif %}
+                                <label style="padding:8px" for="four{{ table[0].number }}"></label>
+                            </div>
                             {% endif %}
-                        </div>
-
-
-                        <div name="fouls1" class="col l4 m4 s4">
-                            <h6>ФОЛЫ</h6>
-                            <input type="checkbox" id="one{{ table[0].number }}">
-                            <label for="one{{ table[0].number }}"></label>
-
-                            <input type="checkbox" id="two{{ table[0].number }}" />
-                            <label for="two{{ table[0].number }}"></label>
-                        </div>
-
-                        <div class="col l4 m4 s4 center-align">
-                            <h6>Разрыв</h6>
-                            <input type="checkbox" id="center{{ table[0].number }}" />
-                            <label style="padding:10px" for="center{{ table[0].number }}"></label>
-                        </div>
-
-                        <div name="fouls2" class="col l4 m4 s4 right-align">
-                            <h6 >ФОЛЫ</h6>
-                            <input type="checkbox" id="tree{{ table[0].number }}">
-                            <label for="tree{{ table[0].number }}"></label>
-                            <input type="checkbox" id="four{{ table[0].number }}" />
-                            <label style="padding:8px" for="four{{ table[0].number }}"></label>
-                        </div>
-
+                            <div name="fouls" class="col l12 m12 s12 center" style="display:none">
+                                <button class="btn-flat" name="{{ table[0].number }}f" type="submit"></button>
+                            </div>
+                        </form>
+                        {% if table[1][1:] %}
                         <div class="col l12 m12 s12 " style="border: solid 1px lightgray;margin-top:10px;margin-bottom: 10px">
                         <h6 class="center">Следующие:</h6>
                         {% for t in table[1][1:] %}
-                            <h6 class="center">{{ t[0] }} - {{ t[1] }}</h6>
+                            <h6 class="center ">{{ t[0] }} {{ t[1].games[0].middle_name + " " + t[1].games[0].first_name}} - {% if t[1].games[1] %}{{t[1].games[1].middle_name + " " + t[1].games[1].first_name}}{% endif %}</h6>
                         {% endfor %}
                         </div>
+                        {% endif %}
 
                         <div name="sub" class="col l12 m12 s12 center" style="display:none">
                             <button class="btn-flat" name="{{ table[0].number }}" type="submit"></button>
@@ -97,7 +135,7 @@
                     <input name="winner" type="text" class="black-text" readonly="" />
                 </div>
                 <div class="modal-footer">
-                    <a class=" modal-close btn-flat">Отмена</a>
+                    <button name="close" type="button" class=" modal-close btn-flat">Отмена</button>
                     <button name="confirm" type="submit" class=" modal-action btn-flat">Подтвердить</button>
                 </div>
             </form>

@@ -9,7 +9,7 @@
     <li class="collection-item avatar ">
         <a href="/tournament/{{ event.id }}"><img src="../static/pyramid.png" class="black circle">
         <span class="title black-text">{{ event.name}}</span>
-        <p class="black-text">{{ event.city }}</p></a>
+        <p class="black-text">{{ event.city }}{%if event.date %}{% if event.city %}, с {% else %}С {% endif %}{{ event.date }}{% endif %}{%if event.dateEnd %} по {{ event.dateEnd }}{% endif %}</p></a>
     </li>
     {% endfor %}
 {% endblock %}
