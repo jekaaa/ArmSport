@@ -6,7 +6,8 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-    <form method="post" class="col s12 card-panel ">
+    <div class="col s12 card-panel" >
+        <form method="post" >
         <div class="row">
             <div class="input-field col l12 m12 s12">
                 <input id="name" name="name" type="text" class="invalid" />
@@ -67,10 +68,11 @@
             </div>
 
             <div class="input-field col offset-l5 l4 offset-m4 m4 offset-s3 s6">
-                <button type="submit" name="submitted" class="btn waves-effect waves-light green"><i class="material-icons right">trending_flat</i>Далее</button>
+                <button type="submit" name="submitted" class="btn waves-effect waves-light green">Готово</button>
             </div>
         </div>
     </form>
+    </div>
     <script src="../static/list.js"></script>
 </div>
 {% endblock %}

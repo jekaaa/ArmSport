@@ -21,7 +21,7 @@ $("#name").change(function () {
 $('#weight_man,#weight_woman').change(function () {
     $(this).removeClass('valid');
     $(this).removeClass('invalid');
-    var temp = /^(\d+(\+)?(\,)?)+$/g;
+    var temp = /^(\d+(\+)?(\,(\s)?)?)+$/g;
     if (temp.test($(this).val()) ) {
         $(this).addClass('valid');
     }
