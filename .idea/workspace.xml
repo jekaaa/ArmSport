@@ -2,20 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ebf8e072-625b-430b-a4d2-76e54fe04ad6" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/armsport/static/blue..png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/armsport/static/red..png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport.sqlite" afterPath="$PROJECT_DIR$/armsport.sqlite" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/__init__.py" afterPath="$PROJECT_DIR$/armsport/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/static/list.js" afterPath="$PROJECT_DIR$/armsport/static/list.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/static/validationPlayer.js" afterPath="$PROJECT_DIR$/armsport/static/validationPlayer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/armsport/templates/files.jinja2" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/allTournaments.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/allTournaments.jinja2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/default.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/default.jinja2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/defaultMenu.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/defaultMenu.jinja2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/myTournaments.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/myTournaments.jinja2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/views/default.py" afterPath="$PROJECT_DIR$/armsport/views/default.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport.sqlite" afterPath="$PROJECT_DIR$/armsport.sqlite" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/models.py" afterPath="$PROJECT_DIR$/armsport/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2" />
     </list>
     <ignored path="armsport.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,6 +28,13 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DatabaseView">
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="armsport" />
@@ -43,22 +44,8 @@
       <file leaf-file-name="tournamentDetail.jinja2" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="435" column="16" selection-start-line="435" selection-start-column="16" selection-end-line="435" selection-end-column="16" />
-              <folding>
-                <element signature="e#779#1678#0#HTML" expanded="false" />
-                <element signature="e#1696#25121#0#HTML" expanded="false" />
-                <element signature="e#25137#27886#0#HTML" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="security.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/armsport/security.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+            <state relative-caret-position="6647">
+              <caret line="391" column="71" selection-start-line="391" selection-start-column="71" selection-end-line="391" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -67,18 +54,18 @@
       <file leaf-file-name="allTournaments.jinja2" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/armsport/templates/allTournaments.jinja2">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="79" selection-start-line="11" selection-start-column="79" selection-end-line="11" selection-end-column="79" />
+            <state relative-caret-position="153">
+              <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="215" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="myTournaments.jinja2" pinned="false" current-in-tab="false">
+      <file leaf-file-name="myTournaments.jinja2" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/armsport/templates/myTournaments.jinja2">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+            <state relative-caret-position="119">
+              <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -87,32 +74,50 @@
       <file leaf-file-name="default.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/armsport/views/default.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="803" column="23" selection-start-line="803" selection-start-column="23" selection-end-line="803" selection-end-column="23" />
+            <state relative-caret-position="2023">
+              <caret line="686" column="25" selection-start-line="686" selection-start-column="25" selection-end-line="686" selection-end-column="25" />
               <folding>
-                <element signature="e#250#609#1" expanded="false" />
-                <element signature="e#666#2906#0" expanded="false" />
-                <element signature="e#2978#7449#0" expanded="false" />
-                <element signature="e#9077#10612#0" expanded="false" />
-                <element signature="e#10671#10775#0" expanded="false" />
-                <element signature="e#10809#11068#0" expanded="false" />
-                <element signature="e#11100#11345#0" expanded="false" />
-                <element signature="e#11377#11622#0" expanded="false" />
-                <element signature="e#11657#14018#0" expanded="false" />
-                <element signature="e#14061#16530#0" expanded="false" />
-                <element signature="e#16607#17109#0" expanded="false" />
-                <element signature="e#17290#18023#0" expanded="false" />
-                <element signature="e#17408#17981#0" expanded="false" />
-                <element signature="e#18221#19026#0" expanded="false" />
-                <element signature="e#18412#18997#0" expanded="false" />
-                <element signature="e#19224#23045#0" expanded="false" />
-                <element signature="e#19316#19467#0" expanded="false" />
-                <element signature="e#19514#23031#0" expanded="false" />
-                <element signature="e#25683#26759#0" expanded="false" />
-                <element signature="e#29899#30089#0" expanded="false" />
-                <element signature="e#31189#32044#0" expanded="false" />
-                <element signature="e#33015#34283#0" expanded="false" />
+                <element signature="e#286#645#1" expanded="false" />
+                <element signature="e#702#2942#0" expanded="false" />
+                <element signature="e#3014#7485#0" expanded="false" />
+                <element signature="e#7587#9046#0" expanded="false" />
+                <element signature="e#9113#10648#0" expanded="false" />
+                <element signature="e#10707#10811#0" expanded="false" />
+                <element signature="e#10845#11104#0" expanded="false" />
+                <element signature="e#11136#11381#0" expanded="false" />
+                <element signature="e#11413#11658#0" expanded="false" />
+                <element signature="e#11693#14054#0" expanded="false" />
+                <element signature="e#14097#16566#0" expanded="false" />
+                <element signature="e#16643#17145#0" expanded="false" />
+                <element signature="e#17326#18059#0" expanded="false" />
+                <element signature="e#17444#18017#0" expanded="false" />
+                <element signature="e#18257#19062#0" expanded="false" />
+                <element signature="e#18448#19033#0" expanded="false" />
+                <element signature="e#19260#23787#0" expanded="false" />
+                <element signature="e#19352#19503#0" expanded="false" />
+                <element signature="e#19550#23773#0" expanded="false" />
+                <element signature="e#26379#27455#0" expanded="false" />
+                <element signature="e#30722#30912#0" expanded="false" />
+                <element signature="e#32012#32867#0" expanded="false" />
+                <element signature="e#33838#35106#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="c6478e4b-3907-4cc0-909c-6c4b843dd695.jpg" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/armsport/static/download_images/c6478e4b-3907-4cc0-909c-6c4b843dd695.jpg">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="routes.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/armsport/routes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="55" selection-start-line="17" selection-start-column="55" selection-end-line="17" selection-end-column="55" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -129,31 +134,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="default.jinja2" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/armsport/templates/default.jinja2">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="33" column="47" selection-start-line="33" selection-start-column="47" selection-end-line="33" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="defaultMenu.jinja2" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/armsport/templates/defaultMenu.jinja2">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="107" selection-start-line="10" selection-start-column="107" selection-end-line="10" selection-end-column="107" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="newTournament.jinja2" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/armsport/templates/newTournament.jinja2">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+            <state relative-caret-position="153">
+              <caret line="9" column="57" selection-start-line="9" selection-start-column="57" selection-end-line="9" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -178,22 +163,23 @@
         <option value="$PROJECT_DIR$/armsport/security.py" />
         <option value="$PROJECT_DIR$/armsport/views/authorization.py" />
         <option value="$PROJECT_DIR$/armsport/scripts/initializedb.py" />
-        <option value="$PROJECT_DIR$/armsport/routes.py" />
-        <option value="$PROJECT_DIR$/armsport/models.py" />
         <option value="$PROJECT_DIR$/../GAMEWEBGL/Game" />
         <option value="$PROJECT_DIR$/../GAMEWEBGL/Game.html" />
         <option value="$PROJECT_DIR$/../GAMEWEBGL/game.js" />
         <option value="$PROJECT_DIR$/development.ini" />
         <option value="$PROJECT_DIR$/armsport/__init__.py" />
         <option value="$PROJECT_DIR$/armsport/static/list.js" />
-        <option value="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" />
         <option value="$PROJECT_DIR$/armsport/templates/defaultMenu.jinja2" />
-        <option value="$PROJECT_DIR$/armsport/templates/myTournaments.jinja2" />
-        <option value="$PROJECT_DIR$/armsport/templates/allTournaments.jinja2" />
         <option value="$PROJECT_DIR$/armsport/templates/default.jinja2" />
         <option value="$PROJECT_DIR$/armsport/static/validationPlayer.js" />
+        <option value="$PROJECT_DIR$/armsport/templates/files.jinja2" />
+        <option value="$PROJECT_DIR$/armsport/models.py" />
+        <option value="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" />
+        <option value="$PROJECT_DIR$/armsport/routes.py" />
         <option value="$PROJECT_DIR$/armsport/views/default.py" />
         <option value="$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2" />
+        <option value="$PROJECT_DIR$/armsport/templates/allTournaments.jinja2" />
+        <option value="$PROJECT_DIR$/armsport/templates/myTournaments.jinja2" />
       </list>
     </option>
   </component>
@@ -207,7 +193,7 @@
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1313" />
-    <option name="height" value="784" />
+    <option name="height" value="772" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -234,8 +220,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -336,17 +320,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="download_images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="armsport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="armsport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="armsport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="scripts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/armsport.sqlite" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -647,19 +656,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1313" height="784" extended-state="6" />
+    <frame x="-8" y="-8" width="1313" height="772" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20894371" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21628092" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299923" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32872504" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32872504" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3249258" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32937685" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -681,475 +690,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/armsport/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1190">
-          <caret line="91" column="4" selection-start-line="91" selection-start-column="4" selection-end-line="91" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/validationPlayer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="45" column="44" selection-start-line="45" selection-start-column="44" selection-end-line="45" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/authorization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="5" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/newTournament.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#779#1678#0#HTML" expanded="false" />
-            <element signature="e#1696#25121#0#HTML" expanded="false" />
-            <element signature="e#25137#27886#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/default.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1921">
-          <caret line="239" column="0" selection-start-line="239" selection-start-column="0" selection-end-line="239" selection-end-column="0" />
-          <folding>
-            <element signature="e#250#609#1" expanded="false" />
-            <element signature="e#666#2906#0" expanded="false" />
-            <element signature="e#2978#7449#0" expanded="false" />
-            <element signature="e#9077#10612#0" expanded="false" />
-            <element signature="e#10671#10775#0" expanded="false" />
-            <element signature="e#10809#11068#0" expanded="false" />
-            <element signature="e#11100#11345#0" expanded="false" />
-            <element signature="e#11377#11622#0" expanded="false" />
-            <element signature="e#11657#14018#0" expanded="false" />
-            <element signature="e#14061#16530#0" expanded="false" />
-            <element signature="e#16607#17109#0" expanded="false" />
-            <element signature="e#17290#18023#0" expanded="false" />
-            <element signature="e#17408#17981#0" expanded="false" />
-            <element signature="e#18221#19026#0" expanded="false" />
-            <element signature="e#18412#18997#0" expanded="false" />
-            <element signature="e#19224#23045#0" expanded="false" />
-            <element signature="e#19316#19467#0" expanded="false" />
-            <element signature="e#19514#23031#0" expanded="false" />
-            <element signature="e#25683#26759#0" expanded="false" />
-            <element signature="e#29899#30089#0" expanded="false" />
-            <element signature="e#31189#32044#0" expanded="false" />
-            <element signature="e#33015#34283#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="59" selection-start-line="11" selection-start-column="59" selection-end-line="11" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/validationPlayer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/authorization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="82" column="57" selection-start-line="82" selection-start-column="57" selection-end-line="82" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="5" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/newTournament.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#779#1678#0#HTML" expanded="false" />
-            <element signature="e#1696#25121#0#HTML" expanded="false" />
-            <element signature="e#25137#27886#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/default.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1411">
-          <caret line="191" column="38" selection-start-line="191" selection-start-column="38" selection-end-line="191" selection-end-column="38" />
-          <folding>
-            <element signature="e#250#609#1" expanded="false" />
-            <element signature="e#666#2906#0" expanded="false" />
-            <element signature="e#2978#7449#0" expanded="false" />
-            <element signature="e#9077#10612#0" expanded="false" />
-            <element signature="e#10671#10775#0" expanded="false" />
-            <element signature="e#10809#11068#0" expanded="false" />
-            <element signature="e#11100#11345#0" expanded="false" />
-            <element signature="e#11377#11622#0" expanded="false" />
-            <element signature="e#11657#14018#0" expanded="false" />
-            <element signature="e#14061#16530#0" expanded="false" />
-            <element signature="e#16607#17109#0" expanded="false" />
-            <element signature="e#17290#18023#0" expanded="false" />
-            <element signature="e#17408#17981#0" expanded="false" />
-            <element signature="e#18221#19026#0" expanded="false" />
-            <element signature="e#18412#18997#0" expanded="false" />
-            <element signature="e#19224#23045#0" expanded="false" />
-            <element signature="e#19316#19467#0" expanded="false" />
-            <element signature="e#19514#23031#0" expanded="false" />
-            <element signature="e#25683#26759#0" expanded="false" />
-            <element signature="e#29899#30089#0" expanded="false" />
-            <element signature="e#31189#32044#0" expanded="false" />
-            <element signature="e#33015#34283#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/validationPlayer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="35" column="21" selection-start-line="35" selection-start-column="21" selection-end-line="35" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/authorization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="82" column="57" selection-start-line="82" selection-start-column="57" selection-end-line="82" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="73" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/newTournament.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/default.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1683">
-          <caret line="108" column="21" selection-start-line="108" selection-start-column="21" selection-end-line="108" selection-end-column="21" />
-          <folding>
-            <element signature="e#250#609#1" expanded="false" />
-            <element signature="e#666#2906#0" expanded="false" />
-            <element signature="e#2978#7449#0" expanded="false" />
-            <element signature="e#9077#10612#0" expanded="false" />
-            <element signature="e#10671#10775#0" expanded="false" />
-            <element signature="e#10809#11068#0" expanded="false" />
-            <element signature="e#11100#11345#0" expanded="false" />
-            <element signature="e#11377#11622#0" expanded="false" />
-            <element signature="e#11657#14018#0" expanded="false" />
-            <element signature="e#14061#16530#0" expanded="false" />
-            <element signature="e#16607#17109#0" expanded="false" />
-            <element signature="e#17290#18023#0" expanded="false" />
-            <element signature="e#17408#17981#0" expanded="false" />
-            <element signature="e#18221#19026#0" expanded="false" />
-            <element signature="e#18412#18997#0" expanded="false" />
-            <element signature="e#19224#23045#0" expanded="false" />
-            <element signature="e#19316#19467#0" expanded="false" />
-            <element signature="e#19514#23031#0" expanded="false" />
-            <element signature="e#25683#26759#0" expanded="false" />
-            <element signature="e#29899#30089#0" expanded="false" />
-            <element signature="e#31189#32044#0" expanded="false" />
-            <element signature="e#33015#34283#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#779#1678#0#HTML" expanded="false" />
-            <element signature="e#1696#25121#0#HTML" expanded="false" />
-            <element signature="e#25137#27886#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/authorization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="82" column="57" selection-start-line="82" selection-start-column="57" selection-end-line="82" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/newTournament.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1207">
-          <caret line="71" column="14" selection-start-line="71" selection-start-column="14" selection-end-line="71" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/models/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/armsport/models/meta.py" />
-    <entry file="file://$PROJECT_DIR$/armsport/views/notfound.py" />
-    <entry file="file://$PROJECT_DIR$/armsport/views/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/pyramid.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/scripts/initializedb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Python/Lib/random.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3256">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/authorization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GAMEWEBGL/Game" />
-    <entry file="file://$PROJECT_DIR$/../GAMEWEBGL/Game.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="69" selection-start-line="12" selection-start-column="69" selection-end-line="12" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GAMEWEBGL/game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="86" column="11" selection-start-line="86" selection-start-column="11" selection-end-line="86" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/development.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/newTournament.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/myTournaments.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/defaultMenu.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="107" selection-start-line="10" selection-start-column="107" selection-end-line="10" selection-end-column="107" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/allTournaments.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="79" selection-start-line="11" selection-start-column="79" selection-end-line="11" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/default.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="47" selection-start-line="33" selection-start-column="47" selection-end-line="33" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/validationPlayer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1751">
-          <caret line="105" column="73" selection-start-line="105" selection-start-column="73" selection-end-line="105" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/views/default.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="803" column="23" selection-start-line="803" selection-start-column="23" selection-end-line="803" selection-end-column="23" />
-          <folding>
-            <element signature="e#250#609#1" expanded="false" />
-            <element signature="e#666#2906#0" expanded="false" />
-            <element signature="e#2978#7449#0" expanded="false" />
-            <element signature="e#9077#10612#0" expanded="false" />
-            <element signature="e#10671#10775#0" expanded="false" />
-            <element signature="e#10809#11068#0" expanded="false" />
-            <element signature="e#11100#11345#0" expanded="false" />
-            <element signature="e#11377#11622#0" expanded="false" />
-            <element signature="e#11657#14018#0" expanded="false" />
-            <element signature="e#14061#16530#0" expanded="false" />
-            <element signature="e#16607#17109#0" expanded="false" />
-            <element signature="e#17290#18023#0" expanded="false" />
-            <element signature="e#17408#17981#0" expanded="false" />
-            <element signature="e#18221#19026#0" expanded="false" />
-            <element signature="e#18412#18997#0" expanded="false" />
-            <element signature="e#19224#23045#0" expanded="false" />
-            <element signature="e#19316#19467#0" expanded="false" />
-            <element signature="e#19514#23031#0" expanded="false" />
-            <element signature="e#25683#26759#0" expanded="false" />
-            <element signature="e#29899#30089#0" expanded="false" />
-            <element signature="e#31189#32044#0" expanded="false" />
-            <element signature="e#33015#34283#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="435" column="16" selection-start-line="435" selection-start-column="16" selection-end-line="435" selection-end-column="16" />
-          <folding>
-            <element signature="e#779#1678#0#HTML" expanded="false" />
-            <element signature="e#1696#25121#0#HTML" expanded="false" />
-            <element signature="e#25137#27886#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/security.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+        <state relative-caret-position="6647">
+          <caret line="391" column="71" selection-start-line="391" selection-start-column="71" selection-end-line="391" selection-end-column="71" />
           <folding />
         </state>
       </provider>

@@ -7,7 +7,6 @@
 {% block nav %}
     <div class="nav-content green" style="height: 48px">
         <div class="container " >
-          <!--<span><a href="/new_tournament">Добавить мероприятие</a></span>-->
           <a href="/new_tournament" class="tooltipped btn-floating btn-large halfway-fab waves-effect white" data-position="left" data-tooltip="Добавить мероприятие">
             <i class="material-icons green-text">add</i>
           </a>
@@ -22,7 +21,7 @@
 {% block center %}
     {% for event in events %}
     <li class="collection-item avatar" style="padding-left: 80px">
-        <a href="/tournament/{{ event.id }}"><img src="../static/logo.png" class="circle" style="width: 3.5rem;height: 3.5rem;margin-top: 5px"></a>
+        <a href="/tournament/{{ event.id }}"><img src="../static/{% if event.image_path %}{{ event.image_path }}{% else %}logo.png{% endif %}" class="circle" style="width: 3.5rem;height: 3.5rem;margin-top: 5px"></a>
         <div style="padding-top: 10px">
             <a href="/tournament/{{ event.id }}"><span class="title black-text" >{{ event.name}}</span></a>
             <p class="black-text" style="font-size: 13px">{{ event.city }}{%if event.date %}{% if event.city %}, с {% else %}С {% endif %}{{ event.date }}{% endif %}{%if event.dateEnd %} по {{ event.dateEnd }}{% endif %}</p>

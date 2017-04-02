@@ -20,7 +20,11 @@
     <div id="test1" class="col s12 m12 l12 card-panel white" style="margin-top:1%">
         <div >
             <div class="center">
-                <img class="circle" style="width: 6.25rem;height: 6.25rem" src="../static/priroda_kartinki_foto_05.jpg"/>
+                {% if event.image_path %}
+                    <img class="circle" style="width: 8rem;height: 8rem" src="../static/{{ event.image_path }}"/>
+                {% else %}
+                    <img class="circle" style="width: 8rem;height: 8rem" src="../static/logo.png"/>
+                {% endif %}
                 <p style="font-size: 18px;margin-bottom:0">{{ event.name}}</p>
                 <p style="font-size: 13px;margin-top:0">{{ event.city }}{%if event.date %}{% if event.city %}, с {% else %}С {% endif %}{{ event.date }}{% endif %}{%if event.dateEnd %} по {{ event.dateEnd }}{% endif %}</p>
             </div>
@@ -33,7 +37,8 @@
         </div>
 
     </div>
-    {% if root %}<div id="test2" class="col s12 m12 l12">
+    {% if root %}
+        <div id="test2" class="col s12 m12 l12">
         {% if start %}
         <div class="row" style="margin-top: 1%">
             {% if not list_table %}
@@ -301,12 +306,7 @@
     {% else %}
      <ul class="collapsible z-depth-0" data-collapsible="accordion">
         <li>
-            {% if message %}
-            <div class="collapsible-header active"><i class="material-icons green-text">add</i>Добавить участника</div>
-            {% else %}
-                <div class="collapsible-header "><i class="material-icons green-text">add</i>Добавить участника</div>
-            {% endif %}
-
+            <div class="collapsible-header{% if message %} active{% endif %}"><i class="material-icons green-text">add</i>Добавить участника</div>
             <div class="collapsible-body white">
                 <div class="row">
                     <form id="player" method="post" class="col s12 ">
@@ -384,10 +384,12 @@
                 {% if weight[1]|length < 3 %}<span class="new badge red">{{ weight[1]|length }}</span>{% else %}
                     <span class="new badge green">{{ weight[1]|length }}</span>{% endif %}
             </div>
+
             <div class="collapsible-body white">
                 <ul class="collection">
                 {% for player in weight[1]%}
                 <li class="collection-item ">
+                    <div class="secondary-content"><input type="button"></div>
                     <h6>{{ player.middle_name }} {{ player.first_name }} {{ player.last_name }}</h6>
                     <h6>Дата рождения: {{ player.age }}</h6>
                     <h6>Вес: {{ player.weight }}кг</h6>

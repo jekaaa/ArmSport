@@ -138,6 +138,7 @@ class Event(Base):
     description = Column(Text)
     building = Column(Text)
     address = Column(Text)
+    image_path = Column(Text)
     userId = Column(Integer,ForeignKey('user.id'))
     typeId = Column(Integer,ForeignKey('type.id'))
 

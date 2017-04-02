@@ -1,12 +1,15 @@
-from pyramid.response import Response
-from pyramid.view import view_config,view_defaults
 import random
 import math
+import re
+import os
+import uuid
+import shutil
+from pyramid.response import Response
+from pyramid.view import view_config,view_defaults
 from pyramid.httpexceptions import (
 HTTPFound,
 HTTPNotFound,
 )
-import re
 from sqlalchemy.exc import DBAPIError
 from ..models import *
 '''def sort_result_dict(dict):
@@ -507,6 +510,23 @@ def nt_view(request):
         else:
             date2 = ""
 
+        path = ""
+        if 'img' in request.params and request.POST["img"] != "":
+
+            try:
+                input_file = request.POST['img'].file
+                file_path = os.path.join('C:/Users/Dexp/Desktop/armsport/armsport/static/download_images',
+                                         '%s.jpg' % uuid.uuid4())
+                temp_file_path = file_path + '~'
+                input_file.seek(0)
+                with open(temp_file_path, 'wb') as output_file:
+                    shutil.copyfileobj(input_file, output_file)
+
+                os.rename(temp_file_path, file_path)
+                path = file_path.split('/')[-1]
+            except:
+                path = ""
+
         weight_man = request.params['weight_man'] if 'weight_man' in request.params else ""
         weight_woman = request.params['weight_woman'] if 'weight_woman' in request.params else ""
         city = request.params['city'] if 'city' in request.params else ""
@@ -515,7 +535,7 @@ def nt_view(request):
         address = request.params['address'] if 'address' in request.params else ""
 
         event = Event(numberTable=number_table,name=name,city=city,date=date,dateEnd=date2,
-                      description=description,building=building,address=address,user=user,type=type)
+                      description=description,building=building,address=address,user=user,type=type,image_path=path)
         DBSession.add(event)
 
         if weight_man and weight_woman:
@@ -572,9 +592,7 @@ def td_view(request):
         # Проверка на начало турниров
         start = False
         # Проверка на наличие прав редактирования
-        user = DBSession.query(User).filter_by(login=request.authenticated_userid).first()
-        userEvent = DBSession.query(User).filter_by(id=event.userId).first()
-        root = True if user == userEvent else False
+        root = True if request.authenticated_userid == event.user.login else False
 
         # Словари для распределения участников по весовым категориям
         # Заполнение данными словарей с участниками турнира
@@ -598,13 +616,15 @@ def td_view(request):
                         return {"event": event,
                                 "message2":"В каждой весовой категории должно быть минимум 3 участника",
                                 "dict_tournaments_man": list_tournaments_man,
-                                "dict_tournaments_woman": list_tournaments_woman}
+                                "dict_tournaments_woman": list_tournaments_woman,
+                                "root":root}
                 for w in list_tournaments_woman:
                     if len(w[1]) < 3:
                         return {"event": event,
                                 "message2": "В каждой весовой категории должно быть минимум 3 участника",
                                 "dict_tournaments_man": list_tournaments_man,
-                                "dict_tournaments_woman": list_tournaments_woman}
+                                "dict_tournaments_woman": list_tournaments_woman,
+                                "root": root}
                 first_tour(tournaments)
                 return HTTPFound(location="/tournament/"+str(event.id))
 
@@ -658,10 +678,12 @@ def td_view(request):
                         weight = weight.replace(',','.')
                     weight = float(weight)
                 else:
-                    return {"event":event,
-                            "dict_tournaments_man": list_tournaments_man,
-                            "dict_tournaments_woman": list_tournaments_woman,
-                            "message":"Вес неверен"}
+                    return {
+                        "event":event,
+                        "dict_tournaments_man": list_tournaments_man,
+                        "dict_tournaments_woman": list_tournaments_woman,
+                        "message":"Вес неверен",
+                        "root": root}
                 # Команда
                 team = request.params['team'] if 'team' in request.params else ""
                 random_left = random.randint(1,1000)
@@ -677,7 +699,8 @@ def td_view(request):
                     return {"event":event,
                             "dict_tournaments_man": list_tournaments_man,
                             "dict_tournaments_woman": list_tournaments_woman,
-                            "message":"Нет турнира для этого участника"}
+                            "message":"Нет турнира для этого участника",
+                            "root": root}
                 # Добавление нового участника
                 player = Player(first_name=first_name,middle_name=middle_name,last_name=last_name,left_hand=random_left,
                                      right_hand=random_right,age=age,sex=sex,weight=weight,team=team,event=event)
@@ -689,7 +712,8 @@ def td_view(request):
 
             return {"event":event,
                     "dict_tournaments_man":list_tournaments_man,
-                    "dict_tournaments_woman":list_tournaments_woman}
+                    "dict_tournaments_woman":list_tournaments_woman,
+                    "root": root}
 
         #Стартовавшее мероприятие
         dict_table = {}
