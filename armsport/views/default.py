@@ -11,6 +11,8 @@ HTTPFound,
 HTTPNotFound,
 )
 from sqlalchemy.exc import DBAPIError
+from sqlalchemy.ext.indexable import index_property
+
 from ..models import *
 '''def sort_result_dict(dict):
     list = []
@@ -27,46 +29,201 @@ from ..models import *
     if ex:
         list.append(ex)
 '''
+from collections import OrderedDict
+
+def separation_dict_table(dict_table):
+    list_table = gold_sort_tables(dict_table)
+    list_even = [el for el in list_table if el[0].number % 2 == 0]
+    list_not_even = [el for el in list_table if el[0].number % 2 == 1]
+    list_table = []
+    list_table.append(list_not_even)
+    list_table.append(list_even)
+    return list_table
+
+def edit_player(request,list_players):
+    for player in list_players:
+        if player.first_name == request.params['old_fn'] and player.middle_name == request.params[
+            'old_mn'] and player.last_name == request.params['old_ln']:
+            player.first_name = request.params['fn']
+            player.middle_name = request.params['mn']
+            player.last_name = request.params['ln']
+            player.age = convert_time(request.params['age_edit'])
+            player.weight = request.params['weight_edit']
+            player.team = request.params['team_edit']
+            break
+
 def tournament_grid(dict_table,table,split_winner):
+    # Имя победителя
     first_name = split_winner[2]
+    # Фамилия победителя
     middle_name = split_winner[1]
+    # Победитель (объект)
     player_win = dict_table[table][0][1].games[0] if first_name == dict_table[table][0][1].games[0].first_name and middle_name == dict_table[table][0][1].games[0].middle_name else dict_table[table][0][1].games[1]
     if not dict_table[table][0][1].winner:
         dict_table[table][0][1].winner = player_win
-
-    list_win_grid = DBSession.query(WinGrid).filter_by(tournament=table.tournament).all()
+    # Список сетки виннеров
+    list_win_grid = table.tournament.win_grids
+    # Список сетки лузеров
+    list_lose_grid = table.tournament.lose_grids
+    # Количество игроков
     number_players = len(table.tournament.players)
+    # Количество игр в первом туре сетки виннеров
     number_games = math.ceil(number_players/2)
-
-    l = 0
+    # Индекс для прохождения по списку сетки виннеров
+    i = 0
+    # Индекс для определения участника без пары
     index_free = 0
+    tours = math.ceil(math.log2(len(table.tournament.players)))
     while (number_games > 0):
         k = 0
+        # Индекс для проверки на последнего участника в каждом туре
         index_free += number_games
+        # Проверка на наличие у последнего участника тура пары, и пропихивание его в следующий тур при неимении таковой
         if list_win_grid[index_free-1].winner and len(list_win_grid[index_free-1].games) == 0 and \
                         list_win_grid[index_free-1].winner not in list_win_grid[index_free].games:
             list_win_grid[index_free].games.append(list_win_grid[index_free-1].winner)
+        #list_win_tour = [l for l in list_win_grid if l.tour == list_win_grid[i].tour]
+        list_tour = [l for l in list_lose_grid if l.tour == list_win_grid[i].tour]
+        list_next_tour = [l for l in list_lose_grid if l.tour == list_win_grid[i].tour + 1]
+        list_prev_tour = [l for l in list_lose_grid if l.tour == list_win_grid[i].tour - 1]
+        # Проход по туру сетки виннеров
         while (k < number_games):
-            #if k == number_games-1 and list_win_grid[l].winner and len(list_win_grid[l].games) == 0 and list_win_grid[l].winner not in list_win_grid[number_games-k+l].games:
-            #    list_win_grid[number_games - k + l].games.append(list_win_grid[l].winner)
-            if list_win_grid[l].winner:
-                g = 0
+
+            # Проверка на наличие победителя в матче сетки виннеров
+            if list_win_grid[i].winner:
+                # Определение игр в следующем туре
                 next_tour_number_games = 0 if number_games == 1 else math.ceil(number_games / 2)
+
+                if len(list_win_grid[i].games) == 2:
+                    loser = list_win_grid[i].games[1] if (list_win_grid[i].winner == list_win_grid[i].games[0]) else \
+                        list_win_grid[i].games[0]
+
+                    # Заполнение первого тура сетки лузеров
+                    if list_win_grid[i].tour == 1:
+                        for l in list_tour:
+                            if loser in l.games or loser is l.winner:
+                                break
+                            if len(l.games) < 2:
+                                if math.floor(number_players / 2) % 2 == 1:
+                                    if number_players % 2 == 1:
+                                        if k == number_games - 2:
+                                            l.winner = loser
+                                            #if loser not in list_next_tour[0].games:
+                                            #    list_next_tour[0].games.append(loser)
+                                            break
+                                    else:
+                                        if k == number_games - 1:
+                                            l.winner = loser
+                                            #if loser not in list_next_tour[0].games:
+                                            #    list_next_tour[0].games.append(loser)
+                                            break
+                                l.games.append(loser)
+                                break
+                    elif list_win_grid[i].tour == tours:
+                        semifinal = table.tournament.semifinal[0]
+                        if loser not in semifinal.games:
+                            semifinal.games.append(loser)
+                        final = table.tournament.final[0]
+                        if list_win_grid[i].winner not in semifinal.games:
+                            final.games.append(list_win_grid[i].winner)
+                    else:
+                        for l in list_tour:
+                            if loser in l.games or loser is l.winner:
+                                break
+                            if len(l.games) == 0 and not l.winner:
+                                l.games.append(loser)
+                                break
+                            if len(l.games) == 1:
+                                prev = False
+                                for lp in list_prev_tour:
+                                    if l.games[0] in lp.games or l.games[0] is lp.winner:
+                                        prev = True
+                                        break
+                                if prev:
+                                    l.games.append(loser)
+                                    break
+
+                # Проход по следующему туру
+                g = 0
                 while(g < next_tour_number_games):
-                    if list_win_grid[l].winner in list_win_grid[number_games - k + l + g].games:
+                    # Проверка на наличие победителя матча этого тура в следующем туре
+                    if list_win_grid[i].winner in list_win_grid[number_games - k + i + g].games:
                         break
-                    if len(list_win_grid[number_games - k + l + g].games) < 2:
+                    # Проверка на количество участников в матче следующего тура и добавление победителя в следующий тур
+                    if len(list_win_grid[number_games - k + i + g].games) < 2:
+                        # Проверка на наличие пары, победителю матча этого тура
                         if g == next_tour_number_games - 1 and math.ceil(number_players / 2) % 2 == 1:
-                            list_win_grid[number_games - k + l + g].winner = list_win_grid[l].winner
+                            list_win_grid[number_games - k + i + g].winner = list_win_grid[i].winner
                         else:
-                            list_win_grid[number_games - k + l + g].games.append(list_win_grid[l].winner)
+                            list_win_grid[number_games - k + i + g].games.append(list_win_grid[i].winner)
                         break
                     g += 1
-            l += 1
+            i += 1
             k += 1
-
+        if list_win_grid[index_free-1].tour < tours-1:
+            # Проход по туру сетки лузеров
+            for pare in list_tour:
+                if pare.winner:
+                    if len(pare.games)==0 and pare.winner and pare.winner not in list_next_tour[0].games:
+                        list_next_tour[0].games.append(pare.winner)
+                    for pare_next_tour in list_next_tour:
+                        if pare.winner in pare_next_tour.games or pare.winner is pare_next_tour.winner:
+                            break
+                        if len(pare_next_tour.games) == 1:
+                            pare_next_tour.games.append(pare.winner)
+                            break
+                        if len(pare_next_tour.games) == 0:
+                            pl = math.floor(math.ceil(number_players/2)/2) + len(list_tour)
+                            if pl%2 == 1:
+                                if list_tour[-1].winner and len(list_tour[-1].games) == 0:
+                                    list_next_tour[-1].winner = list_tour[-2].winner
+                                    break
+                                else:
+                                    list_next_tour[-1].winner = list_tour[-1].winner
+                                    break
+                            else:
+                                pare_next_tour.games.append(pare.winner)
+                                break
         number_players = math.ceil(number_players / 2)
         number_games = 0 if number_games == 1 else math.ceil(number_games / 2)
+
+    list_last_tour = [l for l in list_lose_grid if l.tour == tours - 1]
+    if len(list_last_tour) > 1:
+        pares = math.ceil(len(list_last_tour) / 2)
+        while (pares >= 1):
+            list_tour = [l for l in list_lose_grid if l.tour == tours-1]
+            list_next_tour = [l for l in list_lose_grid if l.tour == tours]
+            players = 2*len(list_tour)
+            if list_tour[-1].winner and len(list_tour[-1].games) == 0 and list_tour[-1].winner not in list_next_tour[0].games:
+                list_next_tour[0].games.append(list_tour[-1].winner)
+                players -= 1
+            for l in list_tour:
+                if l.winner:
+                    for nl in list_next_tour:
+                        if l.winner in nl.games or l.winner is nl.winner:
+                            break
+                        if len(nl.games)<2:
+                            if math.ceil(players/2)%2==1:
+                                if l is list_tour[-1]:
+                                    nl.winner = l.winner
+                                    break
+                                else:
+                                    nl.games.append(l.winner)
+                                    break
+                            else:
+                                nl.games.append(l.winner)
+                                break
+
+            tours += 1
+            pares = 0 if pares == 1 else math.ceil(pares / 2)
+
+    semifinal = table.tournament.semifinal[0]
+    if list_lose_grid[-1].winner and len(semifinal.games)<2 and list_lose_grid[-1].winner not in semifinal.games:
+        semifinal.games.append(list_lose_grid[-1].winner)
+
+    final = table.tournament.final[0]
+    if semifinal.winner and semifinal.winner not in final.games:
+        final.games.append(semifinal.winner)
 
 def tournament_grid_olympic(dict_table,table,event,split_winner):
     first_name = split_winner[2]
@@ -157,7 +314,7 @@ def result(tournaments,dict_result):
         games.append(list_one_tour)
         i = 2
         j = 1
-        tours = math.log2(len(DBSession.query(WinGrid).filter_by(tournament=tournament).all()) + 1)
+        tours = math.ceil(math.log2(len(tournament.players)))
 
         while (i <= tours):
             list_win_tour = [str(i) + "A"]
@@ -171,19 +328,27 @@ def result(tournaments,dict_result):
                 if w.tour == j:
                     list_lose_tour.append(w)
             games.append(list_lose_tour)
-
-            list_lose_tour2 = [str(j + 1) + "B"]
-            for w in tournament.lose_grids:
-                if w.tour == j + 1:
-                    list_lose_tour2.append(w)
-            games.append(list_lose_tour2)
-
-            j += 2
+            j+=1
             i += 1
 
+        max_tours = tournament.lose_grids[-1].tour
+
+        while(tours<=max_tours):
+            list_lose_tour = [str(tours) + "B"]
+            for w in tournament.lose_grids:
+                if w.tour == tours:
+                    list_lose_tour.append(w)
+            games.append(list_lose_tour)
+            tours+=1
+
+        list_semifinal = ["Полуфинал"]
+
+        list_semifinal.append(tournament.semifinal[0])
+        games.append(list_semifinal)
+
         list_final = ["Финал"]
-        if len(tournament.final[0].games) > 0:
-            list_final.append(tournament.final[0])
+        list_final.append(tournament.final[0])
+        list_final.append(tournament.final[1])
         games.append(list_final)
 
         hand = "кг (правая)" if tournament.hand else "кг (левая)"
@@ -197,34 +362,37 @@ def result(tournaments,dict_result):
 def games_on_table(table,games):
     for w in table.tournament.win_grids:
         if not w.winner and len(w.games) > 0 and w.tour == 1:
-            # games.append([(str(w.tour)+"A",l.middle_name + " " + l.first_name) for l in w.games])
             games.append((str(w.tour) + "A", w))
     i = 2
     j = 1
 
-    tours = math.ceil(math.log2(len(DBSession.query(WinGrid).filter_by(tournament=table.tournament).all()) + 1))
+    tours = math.ceil(math.log2(len(table.tournament.players)))
 
     while (i <= tours):
         for w in table.tournament.win_grids:
-            if not w.winnerId and len(w.games) > 0 and w.tour == i:
-                # games.append([(str(w.tour)+"A",l.middle_name + " " + l.first_name) for l in w.games])
+            if not w.winner and len(w.games) > 0 and w.tour == i:
                 games.append((str(w.tour) + "A", w))
 
         for w in table.tournament.lose_grids:
-            if not w.winnerId and len(w.games) > 0 and w.tour == j:
-                # games.append([(str(w.tour)+"B",l.middle_name + " " + l.first_name) for l in w.games])
+            if not w.winner and len(w.games) > 0 and w.tour == j:
                 games.append((str(w.tour) + "B", w))
 
-        for w in table.tournament.lose_grids:
-            if not w.winnerId and len(w.games) > 0 and w.tour == j + 1:
-                # games.append([(str(w.tour)+"B",l.middle_name + " " + l.first_name) for l in w.games])
-                games.append((str(w.tour) + "B", w))
-        j += 2
+        j += 1
         i += 1
 
-    if not table.tournament.final[0].winnerId and len(table.tournament.final[0].games) > 0:
-        # games.append([("Финал",l.middle_name + " " + l.first_name) for l in table.tournament.final[0].games])
-        games.append(("Финал", table.tournament.final[0]))
+    max_tours = table.tournament.lose_grids[-1].tour
+
+    while (tours <= max_tours):
+        for w in table.tournament.lose_grids:
+            if not w.winner and len(w.games)>0 and w.tour == tours:
+                games.append((str(w.tour) + "B", w))
+        tours += 1
+
+    if not table.tournament.semifinal[0].winner and len(table.tournament.semifinal[0].games) > 0:
+        games.append(("Полуфинал", table.tournament.semifinal[0]))
+
+
+
     return games
 
 # Перевод даты в нормальную)
@@ -296,7 +464,7 @@ def first_tour(tournaments):
         tour_lose = 1
         # Индексы для игроков
         l = 0
-        # Создание всех туров сетки и заполнение 1 тура
+        # Создание всех туров сетки виннеров и заполнение 1 тура
         while (number_games > 0):
             k = 0
             while (k < number_games):
@@ -316,11 +484,11 @@ def first_tour(tournaments):
                 else:
                     win_grid = WinGrid(tour=tour_win, tournament=tournament, gap=False, first_fouls=0,
                                        second_fouls=0)
-                    lose_grid1 = LoseGrid(tour=tour_lose, tournament=tournament, gap=False, first_fouls=0,
-                                          second_fouls=0)
-                    lose_grid2 = LoseGrid(tour=tour_lose + 1, tournament=tournament, gap=False, first_fouls=0,
-                                          second_fouls=0)
-                    DBSession.add_all([win_grid, lose_grid1, lose_grid2])
+                    #lose_grid1 = LoseGrid(tour=tour_lose, tournament=tournament, gap=False, first_fouls=0,
+                    #                      second_fouls=0)
+                    #lose_grid2 = LoseGrid(tour=tour_lose + 1, tournament=tournament, gap=False, first_fouls=0,
+                    #                      second_fouls=0)
+                    DBSession.add(win_grid)
                 k += 1
 
             number_games = 0 if number_games == 1 else math.ceil(number_games/2)
@@ -328,9 +496,52 @@ def first_tour(tournaments):
             if tour_win != 1:
                 tour_lose += 2
             tour_win += 1
+
+        # Создание сетки лузеров
+        i = 1
+        players = len(tournament.players)
+        tours = math.ceil(math.log2(players))
+        while(i < tours):
+            if i == 1:
+                j = 0
+                pares = math.ceil(math.floor(players/2)/2)
+                while(j < pares):
+                    lose_grid = LoseGrid(tour=1, tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
+                    DBSession.add(lose_grid)
+                    j+=1
+            else:
+                j = 0
+                list_lose_grid = DBSession.query(LoseGrid).filter_by(tournament=tournament).all()
+                lose_tour = [l for l in list_lose_grid if l.tour == i-1]
+                pares = math.ceil(math.floor(players/2)/2 + len(lose_tour)/2)
+                while (j < pares):
+                    lose_grid = LoseGrid(tour=i, tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
+                    DBSession.add(lose_grid)
+                    j += 1
+            i+=1
+            players = math.ceil(players/2)
+
+        list_lose_grid = DBSession.query(LoseGrid).filter_by(tournament=tournament).all()
+        list_last_tour = [l for l in list_lose_grid if l.tour == tours-1]
+        if len(list_last_tour) > 1:
+            pares = math.ceil(len(list_last_tour)/2)
+            while(pares >= 1):
+                i=0
+                while(i<pares):
+                    lose_grid = LoseGrid(tour=tours, tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
+                    DBSession.add(lose_grid)
+                    i+=1
+                tours += 1
+                pares = 0 if pares == 1 else math.ceil(pares/2)
+
+        # Создание полуфинала
+        semifinal = Semifinal(tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
+        DBSession.add(semifinal)
+
         # Создание финала
-        final = Final(tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
-        DBSession.add(final)
+        final = Final(tour=1,tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
+        final_two = Final(tour=2, tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
+        DBSession.add_all([final,final_two])
 
 def first_tour_olympic(tournaments):
     for tournament in tournaments:
@@ -591,15 +802,17 @@ def td_view(request):
 
         # Проверка на начало турниров
         start = False
+
         # Проверка на наличие прав редактирования
         root = True if request.authenticated_userid == event.user.login else False
 
-        # Словари для распределения участников по весовым категориям
-        # Заполнение данными словарей с участниками турнира
+        # Условие для старта мероприятия
         for tournament in tournaments:
             if tournament.win_grids:
                 start = True
 
+        # Словари для распределения участников по весовым категориям
+        # Заполнение данными словарей с участниками турнира
         dict_tournaments_woman = {tournament.weight:tournament.players for tournament in tournaments if tournament.hand and tournament.typeId == 1}
         dict_tournaments_man = {tournament.weight:tournament.players for tournament in tournaments if tournament.hand and tournament.typeId == 2}
 
@@ -609,22 +822,20 @@ def td_view(request):
 
         # Не стартовавшее мероприятие
         if not start:
+
             # Старт мероприятия
             if root and 'start' in request.params:
-                for w in list_tournaments_man:
-                    if len(w[1])<3:
-                        return {"event": event,
+                return_dict = {"event": event,
                                 "message2":"В каждой весовой категории должно быть минимум 3 участника",
                                 "dict_tournaments_man": list_tournaments_man,
                                 "dict_tournaments_woman": list_tournaments_woman,
                                 "root":root}
+                for w in list_tournaments_man:
+                    if len(w[1]) < 3:
+                        return return_dict
                 for w in list_tournaments_woman:
                     if len(w[1]) < 3:
-                        return {"event": event,
-                                "message2": "В каждой весовой категории должно быть минимум 3 участника",
-                                "dict_tournaments_man": list_tournaments_man,
-                                "dict_tournaments_woman": list_tournaments_woman,
-                                "root": root}
+                        return return_dict
                 first_tour(tournaments)
                 return HTTPFound(location="/tournament/"+str(event.id))
 
@@ -710,17 +921,22 @@ def td_view(request):
                     tournament.players.append(player)
                 return HTTPFound(location="/tournament/"+str(event.id))
 
-            return {"event":event,
-                    "dict_tournaments_man":list_tournaments_man,
-                    "dict_tournaments_woman":list_tournaments_woman,
-                    "root": root}
+            # Редактирование участника
+            if root and 'edit' in request.params:
+                edit_player(request,event.players)
+
+            return {
+                "event":event,
+                "dict_tournaments_man":list_tournaments_man,
+                "dict_tournaments_woman":list_tournaments_woman,
+                "root": root}
 
         #Стартовавшее мероприятие
         dict_table = {}
         tables = event.tables
 
         # Создание словаря с результатами матчей
-        dict_result = result(tournaments,{})
+        dict_result = result(tournaments,OrderedDict())
 
         # Создание столов
         if not tables:
@@ -764,12 +980,7 @@ def td_view(request):
                     dict_table[table][0][1].second_fouls = 0
 
         #Сортировка словаря со столами и формирование списка со столами, разделенными на 2 части
-        list_table = gold_sort_tables(dict_table)
-        list_even = [el for el in list_table if el[0].number%2==0]
-        list_not_even = [el for el in list_table if el[0].number%2==1]
-        list_table = []
-        list_table.append(list_not_even)
-        list_table.append(list_even)
+        list_table = separation_dict_table(dict_table)
 
         # Определение победителя в каком-либо матче и построение сетки
         if root:
@@ -780,6 +991,7 @@ def td_view(request):
                     if winner:
                         tournament_grid(dict_table,table,split_winner)
                         return HTTPFound(location="/tournament/" + str(event.id))
+
 
         if request.matched_route.name == 'api_tournament_detail':
             list = []

@@ -4,9 +4,10 @@
 $(document).ready(function() {
     $('select').material_select();
     $('.modal').modal( {dismissible: false});
+    
 });
 
-
+//Проверка на правильность ввода поля имени, фамилии и отчества
 $("#middle_name,#last_name,#first_name").change(function () {
     $(this).removeClass('valid');
     $(this).removeClass('invalid');
@@ -20,6 +21,7 @@ $("#middle_name,#last_name,#first_name").change(function () {
     } 
 });
 
+//Проверка на правильность ввода поля веса
 $("#weight").change(function () {
     $(this).removeClass('valid');
     $(this).removeClass('invalid');
@@ -32,8 +34,9 @@ $("#weight").change(function () {
     }
 });
 
+//Проверка на наличие инвалидных классов
 $("#player").submit(function () {
-    var len = $('.invalid').length
+    var len = $(this).find('.invalid').length;
     if( len > 0) {
         $('.invalid').animate({opacity: 0}, 1000 );
 	    $('.invalid').animate({opacity: 1}, 500 );
@@ -63,10 +66,11 @@ $("[name='first_foul_2']").each(function (index) {
 
 $("[name='gap'],[name='first_foul_1'],[name='second_foul_1'],[name='first_foul_2'],[name='second_foul_2']").change(function (event) {
     var sub = true;
-    var pare = $(this).parent().parent().siblings('[name="names"]').text();
+    var pare = $.trim($(this).parent().parent().siblings('[name="names"]').text()).replace(/\s+/g," ");
     $('.modal-content p').text(pare);
-    var winner1 = $.trim(pare.split('-')[0]);
-    var winner2 = $.trim(pare.split('-')[1]);
+    var winner1 = pare.split(' ')[0] + " " + pare.split(' ')[1];
+    var winner2 = pare.split(' ')[2] + " " + pare.split(' ')[3];
+    console.log(pare);
     var weight = $.trim($(this).parent().siblings(".select-wrapper").children('input').val());
 
     if($(this).is("[name='second_foul_1']:checked")) {
@@ -118,5 +122,4 @@ $("[name='winner1'] input,[name='winner2'] input").change(function (event) {
         $(this).parent().parent().siblings(".card-reveal").children("form").children("input").val("Победитель: " + winner2);
     }
     tempRadio = $(this);
-     //$('#modal1').modal('open');
 });

@@ -76,7 +76,7 @@
 
                       {% if table[1][0]%}
                           <div class="col l12 m12 s12">
-                            <h6 class="center">{% if table[1][0][0]!="Финал" %}Тур {% endif %}{{ table[1][0][0] }}</h6>
+                            <h6 class="center">{% if table[1][0][0]!="Финал" and table[1][0][0]!="Полуфинал" %}Тур {% endif %}{{ table[1][0][0] }}</h6>
                           </div>
                           <div name="winner1" class="col m4 l4 s4 ">
                             <input class="activator" type="radio" id="test1{{ table[0].number }}" />
@@ -389,7 +389,7 @@
                 <ul class="collection">
                 {% for player in weight[1]%}
                 <li class="collection-item ">
-                    <div class="secondary-content"><input type="button"></div>
+                    <div class="secondary-content edit"><i class="material-icons green-text">mode_edit</i></div>
                     <h6>{{ player.middle_name }} {{ player.first_name }} {{ player.last_name }}</h6>
                     <h6>Дата рождения: {{ player.age }}</h6>
                     <h6>Вес: {{ player.weight }}кг</h6>
@@ -416,6 +416,7 @@
                 <ul class="collection">
                 {% for player in weight[1]%}
                 <li class="collection-item ">
+                    <div class="secondary-content"><button style="border:1px solid lightgray;margin:0px;padding:0px;height: 22px" type="button" class="edit"><img class="white"  src="../static/pen..png" style="width:20px;height: 20px"/></button></div>
                     <h6>{{ player.middle_name }} {{ player.first_name }} {{ player.last_name }}</h6>
                     <h6>Дата рождения: {{ player.age }}</h6>
                     <h6>Вес: {{ player.weight }}кг</h6>
@@ -438,6 +439,7 @@
     </div>{% endif %}
     <div id="test3" class="col s12 m12 l12 "  style="margin-top:1%">
         <div class="row" style="margin-top: 1%">
+
             {% for weight in dict_result %}
             <div class="col s6 m6 l6 " >
                 <div class="card">
@@ -445,7 +447,7 @@
                         <span class="card-title center" style="padding-top:10px">{{ weight }}</span>
                         {% for matchs in dict_result[weight] %}
                             {% if matchs|length > 1%}
-                                <div class="center col s12 m12 l12" style="padding-top:5px;padding-bottom:5px;border-top:1px solid lightgray">{% if matchs[0] != "Финал" %}Тур {{ matchs[0] }}{% else %}{{ matchs[0] }}{% endif %}</div>
+                                <div class="center col s12 m12 l12" style="padding-top:5px;padding-bottom:5px;border-top:1px solid lightgray">{% if matchs[0] != "Финал" and matchs[0] != "Полуфинал" %}Тур {{ matchs[0] }}{% else %}{{ matchs[0] }}{% endif %}</div>
                             {% endif %}
                             {% for match in matchs[1:] %}
                                 <div class="col s12 m12 l12">
@@ -474,4 +476,5 @@
     </div>
 
     <script src="../static/validationPlayer.js"></script>
+    <script src="../static/edit.js"></script>
 {% endblock %}

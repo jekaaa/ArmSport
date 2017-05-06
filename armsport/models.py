@@ -47,6 +47,11 @@ final_grid = Table('games_final', Base.metadata,
     Column('final_id', Integer, ForeignKey('final.id'))
 )
 
+semifinal_grid = Table('games_semifinal', Base.metadata,
+    Column('player_id', Integer, ForeignKey('player.id')),
+    Column('semifinal_id', Integer, ForeignKey('semifinal.id'))
+)
+
 class Player(Base):
     __tablename__ = 'player'
     id = Column(Integer, primary_key=True)
@@ -79,6 +84,7 @@ class Tournament(Base):
 class Final(Base):
     __tablename__= "final"
     id = Column(Integer, primary_key=True)
+    tour = Column(Integer)
     tournamentId = Column(Integer, ForeignKey('tournament.id'))
     winnerId = Column(Integer, ForeignKey('player.id'))
     gap = Column(Boolean)
@@ -88,6 +94,19 @@ class Final(Base):
     games = relationship("Player", secondary=final_grid)
     tournament = relationship("Tournament", backref="final")
     winner = relationship("Player", backref="final")
+
+class Semifinal(Base):
+    __tablename__= "semifinal"
+    id = Column(Integer, primary_key=True)
+    tournamentId = Column(Integer, ForeignKey('tournament.id'))
+    winnerId = Column(Integer, ForeignKey('player.id'))
+    gap = Column(Boolean)
+    first_fouls = Column(Integer)
+    second_fouls = Column(Integer)
+
+    games = relationship("Player", secondary=semifinal_grid)
+    tournament = relationship("Tournament", backref="semifinal")
+    winner = relationship("Player", backref="semifinal")
 
 class WinGrid(Base):
     __tablename__ = "win_grid"

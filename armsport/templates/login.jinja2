@@ -32,8 +32,9 @@
 		</header>
         <div class="container">
             <div class="row">
-                <form method="post" class="col s12 card-panel ">
-                    <div class="row">
+                <div class="col s12 card-panel " style="padding-bottom: 20px;">
+                    <form method="post" >
+
                         <div class="input-field offset-l3 col l6 offset-m3 m6 s12">
                             <input id="login" name="login" type="text" class="validate" />
                             <label for="login">Логин</label>
@@ -46,15 +47,16 @@
 
                         <p class="col l12 m12 s12 center">{{ message }}</p>
 
-                        <div class="input-field col offset-l3 l3 offset-m3 m3 offset-s3 offset-s3 s4 center">
+                        <div class="input-field col offset-l3 l3 offset-m3 m3 offset-s3 s4 center">
                             <button name="submitted" type="submit" class="btn waves-effect waves-light green">Вход</button>
                         </div>
 
                         <div class="input-field col l3  m3 offset-s3 s4 center">
                             <button name="reg" type="submit" class="btn waves-effect waves-light green">Регистрация</button>
                         </div>
-                    </div>
-                </form>
+
+                    </form>
+                </div>
             </div>
         </div>
 
