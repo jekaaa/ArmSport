@@ -16,3 +16,4 @@ def includeme(config):
     config.add_route('apiLogin','/api/v1/auth')
     config.add_route('apiFavorites','/api/v1/favorites')
     config.add_route('api_my_tournaments','/api/v1/my')
+

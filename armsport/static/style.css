@@ -1,3 +1,10 @@
 a span:hover{
      text-decoration:underline;
 }
+.tabs .tab a, .tabs .tab a.active, .tabs .tab a:hover{
+    color:#007269;
+}
+
+.tabs .indicator{
+    background-color: #007269;
+}

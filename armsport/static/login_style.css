@@ -1,0 +1,31 @@
+.img-container{
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+.img-container img{
+    height: 8rem;
+    width: 8rem;
+}
+.sub{
+    background-color: #007769;
+    width: 100%;
+    padding: 0px;
+    font-size: 14px;
+    color:white;
+    height: 36px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+}
+.sub:hover{
+    background-color: #009080;
+}
+.last-container{
+    margin-bottom: 30px;
+    margin-top: 15px;
+}

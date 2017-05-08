@@ -64,10 +64,21 @@ class Player(Base):
     sex = Column(Boolean)
     weight = Column(Float)
     team = Column(Text)
-    lose = Column(Integer)
+    scores = Column(Integer)
     eventId = Column(Integer, ForeignKey('event.id'))
 
     event = relationship("Event", backref="players")
+
+class Place(Base):
+    __tablename__ = 'place'
+    id = Column(Integer, primary_key=True)
+    position = Column(Integer)
+    score = Column(Integer)
+    playerId = Column(Integer, ForeignKey('player.id'))
+    tournamentId = Column(Integer, ForeignKey('tournament.id'))
+
+    players = relationship("Player", backref="places")
+    tournament = relationship("Tournament", backref="places")
 
 class Tournament(Base):
     __tablename__ = 'tournament'

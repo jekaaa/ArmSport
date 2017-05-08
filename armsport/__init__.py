@@ -4,6 +4,13 @@ from .models import *
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 
+def sacrud_settings(config):
+    config.include('pyramid_sacrud')
+    config.registry.settings['pyramid_sacrud.models'] = (
+        ('Group1', [User, Event, Tournament]),
+        ('Group2', [Place])
+    )
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
@@ -19,8 +26,8 @@ def main(global_config, **settings):
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
 
-    config.include('pyramid_jinja2')
     config.include('.routes')
+    config.include('pyramid_jinja2')
 
     config.scan()
     return config.make_wsgi_app()

@@ -31,6 +31,19 @@ from ..models import *
 '''
 from collections import OrderedDict
 
+def create_places(tournaments):
+    dict_scores = {1:25,2:17,3:9,4:5,5:3,6:2}
+    for tournament in tournaments:
+        number_players = len(tournament.players)
+        score = 0
+        i=1
+        while(i<=number_players):
+            if dict_scores[i]:
+                score = dict_scores[i]
+            place = Place(position = i, tournament=tournament,score=score)
+            DBSession.add(place)
+            i+=1
+
 def separation_dict_table(dict_table):
     list_table = gold_sort_tables(dict_table)
     list_even = [el for el in list_table if el[0].number % 2 == 0]
@@ -225,6 +238,34 @@ def tournament_grid(dict_table,table,split_winner):
     if semifinal.winner and semifinal.winner not in final.games:
         final.games.append(semifinal.winner)
 
+    if final.winner and final.winner in semifinal.games:
+        final_tour = Final(tour=2, tournament=table.tournament, gap=False, first_fouls=0, second_fouls=0)
+        final_tour.games = final.games
+        DBSession.add(final_tour)
+
+    if table.tournament.final[-1].winner:
+        places = table.tournament.places
+        one_place = DBSession.query(Place).filter_by(tournament = table.tournament,position=1).first()
+        one_place.players = table.tournament.final[-1].winner
+        loser = table.tournament.final[-1].games[0] if table.tournament.final[-1].games[0] != table.tournament.final[-1].winner else table.tournament.final[-1].games[1]
+        two_place = DBSession.query(Place).filter_by(tournament=table.tournament, position=2).first()
+        two_place.players = loser
+        loser = semifinal.games[0] if semifinal.games[0] != semifinal.winner else semifinal.games[1]
+        tree_place = DBSession.query(Place).filter_by(tournament = table.tournament,position=3).first()
+        tree_place.players = loser
+        lose_grid = table.tournament.lose_grids
+        tours = lose_grid[-1].tour
+        while(tours > 0):
+            list_tour = [p for p in lose_grid if p.tour == tours]
+            for l in list_tour:
+                loser = l.games[0] if l.games[0]!=l.winner else l.games[1]
+                for p in places:
+                    if not p.players:
+                        p.players = loser
+                        break
+            tours-=1
+
+
 def tournament_grid_olympic(dict_table,table,event,split_winner):
     first_name = split_winner[2]
     middle_name = split_winner[1]
@@ -348,7 +389,8 @@ def result(tournaments,dict_result):
 
         list_final = ["Финал"]
         list_final.append(tournament.final[0])
-        list_final.append(tournament.final[1])
+        if len(tournament.final) > 1:
+            list_final.append(tournament.final[1])
         games.append(list_final)
 
         hand = "кг (правая)" if tournament.hand else "кг (левая)"
@@ -391,8 +433,12 @@ def games_on_table(table,games):
     if not table.tournament.semifinal[0].winner and len(table.tournament.semifinal[0].games) > 0:
         games.append(("Полуфинал", table.tournament.semifinal[0]))
 
+    if not table.tournament.final[0].winner and len(table.tournament.final[0].games) > 0:
+        games.append(("Финал 1 тур", table.tournament.final[0]))
 
-
+    if len(table.tournament.final) > 1:
+        if not table.tournament.final[1].winner and len(table.tournament.final[1].games) > 0:
+            games.append(("Финал 2 тур", table.tournament.final[1]))
     return games
 
 # Перевод даты в нормальную)
@@ -445,6 +491,7 @@ def gold_sort_list(dict):
     return list
 
 def first_tour(tournaments):
+    create_places(tournaments)
     for tournament in tournaments:
         # Все участники
         players = tournament.players
@@ -540,8 +587,8 @@ def first_tour(tournaments):
 
         # Создание финала
         final = Final(tour=1,tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
-        final_two = Final(tour=2, tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
-        DBSession.add_all([final,final_two])
+        #final_two = Final(tour=2, tournament=tournament, gap=False, first_fouls=0, second_fouls=0)
+        DBSession.add(final)
 
 def first_tour_olympic(tournaments):
     for tournament in tournaments:
@@ -788,7 +835,7 @@ def nt_view(request):
         return HTTPFound(location='/my_tournaments')
     return {}
 
-@view_config(route_name='tournament_detail', renderer='templates/tournamentDetail.jinja2')
+@view_config(route_name='tournament_detail', renderer='templates/tournamentDetailFull.jinja2')
 @view_config(route_name='api_tournament_detail', renderer='myjson')
 def td_view(request):
     id = request.matchdict['name']
@@ -1031,13 +1078,18 @@ def td_view(request):
                 "tournaments":list2
             }
 
+        dict_places={}
+        for tournament in event.tournaments:
+            dict_places[tournament.weight] = tournament.places
+
         return{
             "event":event,
             "start":start,
             "tournaments":tournaments,
             "list_table":list_table,
             "dict_result":dict_result,
-            "root":root
+            "root":root,
+            "places":dict_places
         }
     else:
         return HTTPNotFound()

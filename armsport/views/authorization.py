@@ -59,7 +59,6 @@ def login_view(request):
                 headers = remember(request, login)
                 return HTTPFound(location = '/all_tournaments', headers = headers)
         return {'message': "Неверный логин или пароль"}
-        #return HTTPNotFound()
     if 'reg' in request.params:
         return HTTPFound(location='/registration')
     return {}

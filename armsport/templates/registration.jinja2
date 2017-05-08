@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
         <link href="../static/icon.png" rel="shortcut icon" type="image/jpeg">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="../static/login_style.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
  	</head>
  	<body>
@@ -14,12 +15,12 @@
 		<header class="headroom hide-header-cta">
             <div class="navbar-fixed">
                 <nav>
-                    <div class="nav-wrapper green ">
+                    <div class="nav-wrapper teal">
                         <div class="container">
                             <ul id="dropdown1" class="dropdown-content">
                               <li><a href="/all_tournaments">Все</a></li>
                             </ul>
-                            <div class="left"><h5>SportLead</h5></div>
+                            <div class="left"><a class="brand-logo" href="/all_tournaments" style="font-size:30px;font-family: 'Candara', sans-serif">SportLead</a></div>
                             <ul class="right">
                                 <li><a class="waves-effect waves-light hide-on-small-only " href="/all_tournaments">Все мероприятия</a></li>
                                 <li><a class="waves-effect waves-light hide-on-med-and-up dropdown-button" data-activates="dropdown1"><i class="material-icons ">menu</i></a></li>
@@ -31,28 +32,31 @@
             </div>
 		</header>
         <div class="container">
-            <div class="row">
-                <form method="post" class="col s12 card-panel ">
-                    <div class="row">
-                        <div class="input-field offset-l3 col l6 offset-m3 m6 s12">
+        <div class="row">
+            <div class="col card-panel offset-l3 l6 offset-m3 m6 s12">
+                    <div class="img-container center">
+                        <img class="circle" src="../static/logo.png"/>
+                    </div>
+                    <div class="center">
+                        <p>{{ message }}</p>
+                    </div>
+                <form method="post">
+                        <div class="input-field col offset-l2 l8 offset-m2 m8 s12">
                             <input id="login" name="login" type="text" class="validate" />
                             <label for="login">Придумайте логин</label>
                         </div>
 
-                        <div class="input-field offset-l3 col l6 offset-m3 m6 s12">
+                        <div class="input-field col offset-l2 l8 offset-m2 m8 s12">
                             <input id="password" name="password" type="password" class="validate" />
                             <label for="password">Придумайте пароль</label>
                         </div>
 
-                        <p class="col l12 m12 s12 center">{{ message }}</p>
-
-                        <div class="input-field col offset-l3 l6 offset-m3 m6 offset-s3 s12 center">
-                            <button name="reg" type="submit" class="btn waves-effect waves-light green">Зарегистрироваться</button>
+                        <div class="last-container col offset-l2 l8 offset-m2 m8 s12">
+                            <button name="reg" type="submit" class="sub waves-effect waves-light">Зарегистрироваться</button>
                         </div>
-                    </div>
                 </form>
             </div>
         </div>
-
+        </div>
  	</body>
 </html>

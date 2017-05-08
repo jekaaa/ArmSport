@@ -3,10 +3,11 @@
  	<head>
   		<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
   		<title>{% block title %}{% endblock %}</title>
-        <link href="../static/style.css" rel="stylesheet">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
         <link href="../static/icon.png" rel="shortcut icon" type="image/jpeg">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="../static/style.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
  	</head>
  	<body>
@@ -14,16 +15,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
         <!--<script src="http://malsup.github.com/jquery.form.js"></script>-->
 		<header class="headroom hide-header-cta">
-            <div class="navbar">
+            <div class="navbar " >
                 <nav class="nav-extended">
-                    <div class="nav-wrapper green ">
+                    <div class="nav-wrapper teal" >
                         <div class="container">
                             <ul id="dropdown1" class="dropdown-content">
                               <li><a href="/all_tournaments">Все</a></li>
                               <li class="divider"></li>
                               <li><a href="/my_tournaments">Мои</a></li>
                             </ul>
-                            <div class="left"><a class="brand-logo" href="/all_tournaments" style="font-size:30px;font-family: Tahoma, sans-serif">SportLead</a></div>
+                            <div class="left"><a class="brand-logo" href="/all_tournaments" style="font-size:30px;font-family: 'Candara', sans-serif">SportLead</a></div>
                             <ul class="right">
                                 {% block header %}{% endblock %}
                                 <li ><a class="waves-effect waves-light hide-on-med-and-up dropdown-button" data-activates="dropdown1"><i class="material-icons ">menu</i></a></li>
@@ -31,16 +32,17 @@
                             </ul>
                         </div>
                     </div>
-                    {% block nav %}{% endblock %}
-
                 </nav>
 
 
             </div>
 		</header>
 
-		<div class="container">
-            {% block content %}{% endblock %}
+		<div class="container" >
+            <div class="card z-depth-0 ">
+                {% block avatar %}{% endblock %}
+                {% block content %}{% endblock %}
+            </div>
 		</div>
  	</body>
 </html>
