@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ebf8e072-625b-430b-a4d2-76e54fe04ad6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport.sqlite" afterPath="$PROJECT_DIR$/armsport.sqlite" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/static/edit.js" afterPath="$PROJECT_DIR$/armsport/static/edit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/static/login_style.css" afterPath="$PROJECT_DIR$/armsport/static/login_style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/static/style.css" afterPath="$PROJECT_DIR$/armsport/static/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/static/validationPlayer.js" afterPath="$PROJECT_DIR$/armsport/static/validationPlayer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/templates/tournamentDetailFull.jinja2" afterPath="$PROJECT_DIR$/armsport/templates/tournamentDetailFull.jinja2" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/armsport/views/default.py" afterPath="$PROJECT_DIR$/armsport/views/default.py" />
     </list>
@@ -62,7 +56,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/armsport/static/style.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="551">
@@ -75,29 +69,30 @@
       <file leaf-file-name="tournamentDetailFull.jinja2" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/armsport/templates/tournamentDetailFull.jinja2">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="142" column="44" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
+            <state relative-caret-position="136">
+              <caret line="302" column="10" selection-start-line="302" selection-start-column="10" selection-end-line="302" selection-end-column="10" />
               <folding>
-                <element signature="e#117#138#0#HTML" expanded="true" />
-                <element signature="e#66#1236#0#HTML" expanded="false" />
-                <element signature="e#477#497#0#HTML" expanded="true" />
-                <element signature="e#879#899#0#HTML" expanded="true" />
-                <element signature="e#1041#1061#0#HTML" expanded="true" />
-                <element signature="e#17667#17688#0#HTML" expanded="true" />
-                <element signature="e#17626#20670#0#HTML" expanded="false" />
-                <element signature="e#17716#17738#0#HTML" expanded="true" />
-                <element signature="e#17909#17951#0#HTML" expanded="true" />
-                <element signature="e#18009#18033#0#HTML" expanded="true" />
+                <element signature="e#88#16355#0#HTML" expanded="false" />
+                <element signature="e#16466#16487#0#HTML" expanded="true" />
+                <element signature="e#16415#17585#0#HTML" expanded="false" />
+                <element signature="e#16826#16846#0#HTML" expanded="true" />
+                <element signature="e#17228#17248#0#HTML" expanded="true" />
+                <element signature="e#17390#17410#0#HTML" expanded="true" />
+                <element signature="e#17668#17689#0#HTML" expanded="true" />
+                <element signature="e#17627#20671#0#HTML" expanded="false" />
+                <element signature="e#17717#17739#0#HTML" expanded="true" />
+                <element signature="e#17910#17952#0#HTML" expanded="true" />
+                <element signature="e#18010#18034#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="default.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="default.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/armsport/views/default.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="982" column="73" selection-start-line="982" selection-start-column="73" selection-end-line="982" selection-end-column="73" />
+            <state relative-caret-position="475">
+              <caret line="1030" column="61" selection-start-line="1030" selection-start-column="61" selection-end-line="1030" selection-end-column="61" />
               <folding>
                 <element signature="e#339#698#1" expanded="false" />
                 <element signature="e#767#1026#0" expanded="false" />
@@ -127,7 +122,7 @@
                 <element signature="e#31922#36145#0" expanded="false" />
                 <element signature="e#38482#39558#0" expanded="false" />
                 <element signature="e#43243#43433#0" expanded="false" />
-                <element signature="e#45540#46808#0" expanded="false" />
+                <element signature="e#45545#46813#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -189,10 +184,10 @@
         <option value="$PROJECT_DIR$/armsport/templates/tournamentDetail.jinja2" />
         <option value="$PROJECT_DIR$/armsport/static/login_style.css" />
         <option value="$PROJECT_DIR$/armsport/templates/newTournament.jinja2" />
-        <option value="$PROJECT_DIR$/armsport/views/default.py" />
-        <option value="$PROJECT_DIR$/armsport/templates/tournamentDetailFull.jinja2" />
         <option value="$PROJECT_DIR$/armsport/static/edit.js" />
         <option value="$PROJECT_DIR$/armsport/static/style.css" />
+        <option value="$PROJECT_DIR$/armsport/templates/tournamentDetailFull.jinja2" />
+        <option value="$PROJECT_DIR$/armsport/views/default.py" />
       </list>
     </option>
   </component>
@@ -647,7 +642,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1313" height="772" extended-state="1" />
+    <frame x="-7" y="0" width="1313" height="772" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22186752" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -749,7 +744,7 @@
             <element signature="e#31922#36145#0" expanded="false" />
             <element signature="e#38482#39558#0" expanded="false" />
             <element signature="e#43243#43433#0" expanded="false" />
-            <element signature="e#45540#46808#0" expanded="false" />
+            <element signature="e#45545#46813#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -955,10 +950,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/armsport/templates/default.jinja2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="30" column="84" selection-start-line="30" selection-start-column="84" selection-end-line="30" selection-end-column="104" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/armsport/static/edit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
+          <folding>
+            <marker date="1494702072184" expanded="true" signature="506:519" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/armsport/static/login_style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/armsport/static/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/armsport/templates/tournamentDetailFull.jinja2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="302" column="10" selection-start-line="302" selection-start-column="10" selection-end-line="302" selection-end-column="10" />
+          <folding>
+            <element signature="e#88#16355#0#HTML" expanded="false" />
+            <element signature="e#16466#16487#0#HTML" expanded="true" />
+            <element signature="e#16415#17585#0#HTML" expanded="false" />
+            <element signature="e#16826#16846#0#HTML" expanded="true" />
+            <element signature="e#17228#17248#0#HTML" expanded="true" />
+            <element signature="e#17390#17410#0#HTML" expanded="true" />
+            <element signature="e#17668#17689#0#HTML" expanded="true" />
+            <element signature="e#17627#20671#0#HTML" expanded="false" />
+            <element signature="e#17717#17739#0#HTML" expanded="true" />
+            <element signature="e#17910#17952#0#HTML" expanded="true" />
+            <element signature="e#18010#18034#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/armsport/views/default.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="982" column="73" selection-start-line="982" selection-start-column="73" selection-end-line="982" selection-end-column="73" />
+        <state relative-caret-position="475">
+          <caret line="1030" column="61" selection-start-line="1030" selection-start-column="61" selection-end-line="1030" selection-end-column="61" />
           <folding>
             <element signature="e#339#698#1" expanded="false" />
             <element signature="e#767#1026#0" expanded="false" />
@@ -988,61 +1037,8 @@
             <element signature="e#31922#36145#0" expanded="false" />
             <element signature="e#38482#39558#0" expanded="false" />
             <element signature="e#43243#43433#0" expanded="false" />
-            <element signature="e#45540#46808#0" expanded="false" />
+            <element signature="e#45545#46813#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/default.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="30" column="84" selection-start-line="30" selection-start-column="84" selection-end-line="30" selection-end-column="104" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/edit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
-          <folding>
-            <marker date="1494702072184" expanded="true" signature="506:519" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/templates/tournamentDetailFull.jinja2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="142" column="44" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
-          <folding>
-            <element signature="e#117#138#0#HTML" expanded="true" />
-            <element signature="e#66#1236#0#HTML" expanded="false" />
-            <element signature="e#477#497#0#HTML" expanded="true" />
-            <element signature="e#879#899#0#HTML" expanded="true" />
-            <element signature="e#1041#1061#0#HTML" expanded="true" />
-            <element signature="e#17667#17688#0#HTML" expanded="true" />
-            <element signature="e#17626#20670#0#HTML" expanded="false" />
-            <element signature="e#17716#17738#0#HTML" expanded="true" />
-            <element signature="e#17909#17951#0#HTML" expanded="true" />
-            <element signature="e#18009#18033#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/login_style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/armsport/static/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>

@@ -1,27 +1,5 @@
 {% extends "tournamentDetail.jinja2" %}
 {% block first_tab %}
-    <div id="test2" class="col s12 m12 l12 card-panel" style="margin-top:1%">
-        <div>
-            {% if not event.city and not event.date and not event.dateEnd and not event.description and not event.building and not event.address %}
-                <div class="center">
-                    <p>Нет сведений о мероприятии</p>
-                </div>
-            {% else %}
-            <div >
-                <p style="padding:10px">{% if event.city %}Мероприятие проводится в {{ event.city }}{% endif %}{%if event.date %}{% if event.city %}, с {% else %}С {% endif %}{{ event.date }}{% endif %}{%if event.dateEnd %} по {{ event.dateEnd }}{% endif %}</p>
-            </div>
-            {% if event.description %}<div class="divider"></div>{% endif %}
-            <div>
-                {% if event.description %}<p style="padding:10px">{{ event.description }}</p>{% endif %}
-                {% if event.building or event.address%}<div class="divider"></div>
-                <p style="padding:10px">{{ event.building }}{% if event.address %}, {{event.address }}{% endif %}</p>
-                {% endif %}
-            </div>
-            {% endif %}
-        </div>
-    </div>
-{% endblock %}
-{% block second_tab %}
     {% if root %}
         <div id="test1" class="col s12 m12 l12 active">
         {% if start %}
@@ -300,6 +278,29 @@
     </div>
         </div>
     {% endif %}
+
+{% endblock %}
+{% block second_tab %}
+    <div id="test2" class="col s12 m12 l12 card-panel" style="margin-top:1%">
+        <div>
+            {% if not event.city and not event.date and not event.dateEnd and not event.description and not event.building and not event.address %}
+                <div class="center">
+                    <p>Нет сведений о мероприятии</p>
+                </div>
+            {% else %}
+            <div >
+                <p style="padding:10px">{% if event.city %}Мероприятие проводится в {{ event.city }}{% endif %}{%if event.date %}{% if event.city %}, с {% else %}С {% endif %}{{ event.date }}{% endif %}{%if event.dateEnd %} по {{ event.dateEnd }}{% endif %}</p>
+            </div>
+            {% if event.description %}<div class="divider"></div>{% endif %}
+            <div>
+                {% if event.description %}<p style="padding:10px">{{ event.description }}</p>{% endif %}
+                {% if event.building or event.address%}<div class="divider"></div>
+                <p style="padding:10px">{{ event.building }}{% if event.address %}, {{event.address }}{% endif %}</p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 {% block third_tab %}
     <div id="test3" class="col s12 m12 l12"  style="margin-top:1%">

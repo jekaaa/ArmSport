@@ -1024,10 +1024,11 @@ def td_view(request):
 
             # Формирование словаря со столами и парами на каждом столе
             dict_table[table] = games_on_table(table,[])
-            first_game_in_table = dict_table[table][0][1]
+
 
             # Опредение разрыва или фолов в матче
             if str(table.number) + "f" in request.params:
+                first_game_in_table = dict_table[table][0][1]
                 first_game_in_table.gap = True if "gap" in request.params else False
                 first_game_in_table.first_fouls = fouls(request,1)
                 first_game_in_table.second_fouls = fouls(request,2)
