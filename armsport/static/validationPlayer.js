@@ -123,3 +123,5 @@ $("[name='winner1'] input,[name='winner2'] input").change(function (event) {
     }
     tempRadio = $(this);
 });
+
+$(".tabs").css("overflow","hidden")

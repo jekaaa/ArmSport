@@ -1,5 +1,5 @@
 a span:hover{
-     text-decoration:underline;
+    text-decoration:underline;
 }
 .tabs .tab a, .tabs .tab a.active, .tabs .tab a:hover{
     color:#007269;
@@ -7,4 +7,34 @@ a span:hover{
 
 .tabs .indicator{
     background-color: #007269;
+}
+.sub{
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    background-color: #007769;
+    width: 100%;
+    padding: 0px;
+    font-size: 14px;
+    color:white;
+    height: 36px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+}
+.sub:hover{
+    background-color: #009080;
+    cursor: pointer;
+}
+.sub span{
+    color: white;
+}
+.edit i:hover,.del i:hover{
+    cursor: pointer;
+}
+.card-reveal{
+    overflow: hidden;
 }

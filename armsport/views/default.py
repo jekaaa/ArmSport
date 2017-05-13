@@ -31,6 +31,14 @@ from ..models import *
 '''
 from collections import OrderedDict
 
+def fouls(request,number):
+    if "first_foul_"+str(number) in request.params and "second_foul_"+str(number) in request.params:
+        return 2
+    elif "first_foul_"+str(number) in request.params or "second_foul_"+str(number) in request.params:
+        return 1
+    else:
+        return 0
+
 def create_places(tournaments):
     dict_scores = {1:25,2:17,3:9,4:5,5:3,6:2}
     for tournament in tournaments:
@@ -63,6 +71,13 @@ def edit_player(request,list_players):
             player.age = convert_time(request.params['age_edit'])
             player.weight = request.params['weight_edit']
             player.team = request.params['team_edit']
+            break
+
+def del_player(request,list_players):
+    for player in list_players:
+        if player.first_name == request.params['old_fn'] and player.middle_name == request.params[
+            'old_mn'] and player.last_name == request.params['old_ln']:
+            DBSession.delete(player)
             break
 
 def tournament_grid(dict_table,table,split_winner):
@@ -121,14 +136,10 @@ def tournament_grid(dict_table,table,split_winner):
                                     if number_players % 2 == 1:
                                         if k == number_games - 2:
                                             l.winner = loser
-                                            #if loser not in list_next_tour[0].games:
-                                            #    list_next_tour[0].games.append(loser)
                                             break
                                     else:
                                         if k == number_games - 1:
                                             l.winner = loser
-                                            #if loser not in list_next_tour[0].games:
-                                            #    list_next_tour[0].games.append(loser)
                                             break
                                 l.games.append(loser)
                                 break
@@ -264,7 +275,6 @@ def tournament_grid(dict_table,table,split_winner):
                         p.players = loser
                         break
             tours-=1
-
 
 def tournament_grid_olympic(dict_table,table,event,split_winner):
     first_name = split_winner[2]
@@ -854,9 +864,8 @@ def td_view(request):
         root = True if request.authenticated_userid == event.user.login else False
 
         # Условие для старта мероприятия
-        for tournament in tournaments:
-            if tournament.win_grids:
-                start = True
+        if tournaments[0].win_grids:
+            start = True
 
         # Словари для распределения участников по весовым категориям
         # Заполнение данными словарей с участниками турнира
@@ -971,12 +980,18 @@ def td_view(request):
             # Редактирование участника
             if root and 'edit' in request.params:
                 edit_player(request,event.players)
+                return HTTPFound(location="/tournament/" + str(event.id))
+
+            if root and 'del' in request.params:
+                del_player(request,event.players)
+                return HTTPFound(location="/tournament/" + str(event.id))
 
             return {
                 "event":event,
                 "dict_tournaments_man":list_tournaments_man,
                 "dict_tournaments_woman":list_tournaments_woman,
-                "root": root}
+                "root": root
+            }
 
         #Стартовавшее мероприятие
         dict_table = {}
@@ -1009,22 +1024,13 @@ def td_view(request):
 
             # Формирование словаря со столами и парами на каждом столе
             dict_table[table] = games_on_table(table,[])
+            first_game_in_table = dict_table[table][0][1]
 
             # Опредение разрыва или фолов в матче
             if str(table.number) + "f" in request.params:
-                dict_table[table][0][1].gap = True if "gap" in request.params else False
-                if "first_foul_1" in request.params and "second_foul_1" in request.params:
-                    dict_table[table][0][1].first_fouls = 2
-                elif "first_foul_1" in request.params or "second_foul_1" in request.params:
-                    dict_table[table][0][1].first_fouls = 1
-                else:
-                    dict_table[table][0][1].first_fouls = 0
-                if "first_foul_2" in request.params and "second_foul_2" in request.params:
-                    dict_table[table][0][1].second_fouls = 2
-                elif "first_foul_2" in request.params or "second_foul_2" in request.params:
-                    dict_table[table][0][1].second_fouls = 1
-                else:
-                    dict_table[table][0][1].second_fouls = 0
+                first_game_in_table.gap = True if "gap" in request.params else False
+                first_game_in_table.first_fouls = fouls(request,1)
+                first_game_in_table.second_fouls = fouls(request,2)
 
         #Сортировка словаря со столами и формирование списка со столами, разделенными на 2 части
         list_table = separation_dict_table(dict_table)
@@ -1038,7 +1044,6 @@ def td_view(request):
                     if winner:
                         tournament_grid(dict_table,table,split_winner)
                         return HTTPFound(location="/tournament/" + str(event.id))
-
 
         if request.matched_route.name == 'api_tournament_detail':
             list = []
@@ -1078,7 +1083,7 @@ def td_view(request):
                 "tournaments":list2
             }
 
-        dict_places={}
+        dict_places = {}
         for tournament in event.tournaments:
             dict_places[tournament.weight] = tournament.places
 
