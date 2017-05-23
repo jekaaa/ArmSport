@@ -64,7 +64,8 @@ class Player(Base):
     sex = Column(Boolean)
     weight = Column(Float)
     team = Column(Text)
-    scores = Column(Integer)
+    left_scores = Column(Integer)
+    right_scores = Column(Integer)
     eventId = Column(Integer, ForeignKey('event.id'))
 
     event = relationship("Event", backref="players")

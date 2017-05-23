@@ -38,3 +38,10 @@ a span:hover{
 .card-reveal{
     overflow: hidden;
 }
+.settings i:hover{
+    cursor:pointer;
+    transform-origin: center center;
+    transform: rotate(360deg);
+    transition: transform 0.4s;
+
+}

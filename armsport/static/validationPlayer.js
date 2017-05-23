@@ -75,6 +75,8 @@ $("[name='gap'],[name='first_foul_1'],[name='second_foul_1'],[name='first_foul_2
 
     if($(this).is("[name='second_foul_1']:checked")) {
         if($(this).siblings("[name='first_foul_1']").is(":checked")) {
+            $('.c').css('display','block');
+            $('.set').css('display','none');
             sub = false;
             $(this).parent().parent().parent().siblings(".card-reveal").children("form").children("input").val("Победитель: " + winner2);
             //$('.modal-content input').val("Победитель: " + winner2 + " " + weight);
@@ -84,6 +86,8 @@ $("[name='gap'],[name='first_foul_1'],[name='second_foul_1'],[name='first_foul_2
     }
     if($(this).is("[name='second_foul_2']:checked")) {
         if($(this).siblings("[name='first_foul_2']").is(":checked")) {
+            $('.c').css('display','block');
+            $('.set').css('display','none');
             sub = false;
             $(this).parent().parent().parent().siblings(".card-reveal").children("form").children("input").val("Победитель: " + winner1);
             //$('.modal-content input').val("Победитель: " + winner1 + " " + weight);
@@ -97,7 +101,7 @@ $("[name='gap'],[name='first_foul_1'],[name='second_foul_1'],[name='first_foul_2
 
 
 $("[name='close']").click(function () {
-    var card_content = $(this).parent().parent().parent().parent().siblings('.card-content');
+    var card_content = $(this).parent().parent().parent().siblings('.card-content');
     card_content.children("[name='winner1']").children('input').prop("checked",false);
     card_content.children("[name='winner2']").children('input').prop("checked",false);
     card_content.children("[name='formfouls']").children("[name='fouls1']").children("[name='second_foul_1']").prop("checked",false);
@@ -108,6 +112,8 @@ $("[name='close']").click(function () {
 
 $("[name='winner1'] input,[name='winner2'] input").change(function (event) {
     var pare = $.trim($(this).parent().siblings('[name="names"]').text()).replace(/\s+/g," ");
+    $('.c').css('display','block');
+    $('.set').css('display','none');
     $('.modal-content p').text(pare);
     var winner1 = pare.split(' ')[0] + " " + pare.split(' ')[1];
     var winner2 = pare.split(' ')[2] + " " + pare.split(' ')[3];
@@ -115,11 +121,11 @@ $("[name='winner1'] input,[name='winner2'] input").change(function (event) {
     var weight = $.trim($(this).parent().siblings(".select-wrapper").children('input').val());
     if($(this).is("[name='winner1'] input:checked")){
         $('.modal-content input').val("Победитель: " + winner1 + " " + weight);
-        $(this).parent().parent().siblings(".card-reveal").children("form").children("input").val("Победитель: " + winner1);
+        $(this).parent().parent().siblings(".card-reveal").children(".c").children("input").val("Победитель: " + winner1);
     }
     if($(this).is("[name='winner2'] input:checked")){
         $('.modal-content input').val("Победитель: " + winner2 + " " + weight);
-        $(this).parent().parent().siblings(".card-reveal").children("form").children("input").val("Победитель: " + winner2);
+        $(this).parent().parent().siblings(".card-reveal").children(".c").children("input").val("Победитель: " + winner2);
     }
     tempRadio = $(this);
 });

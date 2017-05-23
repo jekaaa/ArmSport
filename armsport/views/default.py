@@ -43,10 +43,10 @@ def create_places(tournaments):
     dict_scores = {1:25,2:17,3:9,4:5,5:3,6:2}
     for tournament in tournaments:
         number_players = len(tournament.players)
-        score = 0
         i=1
         while(i<=number_players):
-            if dict_scores[i]:
+            score=0
+            if i in dict_scores:
                 score = dict_scores[i]
             place = Place(position = i, tournament=tournament,score=score)
             DBSession.add(place)
@@ -250,9 +250,11 @@ def tournament_grid(dict_table,table,split_winner):
         final.games.append(semifinal.winner)
 
     if final.winner and final.winner in semifinal.games:
-        final_tour = Final(tour=2, tournament=table.tournament, gap=False, first_fouls=0, second_fouls=0)
-        final_tour.games = final.games
-        DBSession.add(final_tour)
+        t = DBSession.query(Final).filter_by(tournament=table.tournament, tour=2).first()
+        if not t:
+            final_tour = Final(tour=2, tournament=table.tournament, gap=False, first_fouls=0, second_fouls=0)
+            final_tour.games = final.games
+            DBSession.add(final_tour)
 
     if table.tournament.final[-1].winner:
         places = table.tournament.places
@@ -269,11 +271,12 @@ def tournament_grid(dict_table,table,split_winner):
         while(tours > 0):
             list_tour = [p for p in lose_grid if p.tour == tours]
             for l in list_tour:
-                loser = l.games[0] if l.games[0]!=l.winner else l.games[1]
-                for p in places:
-                    if not p.players:
-                        p.players = loser
-                        break
+                if len(l.games)==2:
+                    loser = l.games[0] if l.games[0]!=l.winner else l.games[1]
+                    for p in places:
+                        if not p.players:
+                            p.players = loser
+                            break
             tours-=1
 
 def tournament_grid_olympic(dict_table,table,event,split_winner):
@@ -1025,13 +1028,19 @@ def td_view(request):
             # Формирование словаря со столами и парами на каждом столе
             dict_table[table] = games_on_table(table,[])
 
-
             # Опредение разрыва или фолов в матче
             if str(table.number) + "f" in request.params:
                 first_game_in_table = dict_table[table][0][1]
                 first_game_in_table.gap = True if "gap" in request.params else False
                 first_game_in_table.first_fouls = fouls(request,1)
                 first_game_in_table.second_fouls = fouls(request,2)
+
+            # Редактирование очков
+            if str(table.number) + "set" in request.params:
+                places = table.tournament.places
+                for place in places:
+                    place.score = request.params[str(place.position) + "place"]
+                return HTTPFound(location="/tournament/" + str(event.id))
 
         #Сортировка словаря со столами и формирование списка со столами, разделенными на 2 части
         list_table = separation_dict_table(dict_table)
@@ -1045,6 +1054,8 @@ def td_view(request):
                     if winner:
                         tournament_grid(dict_table,table,split_winner)
                         return HTTPFound(location="/tournament/" + str(event.id))
+
+
 
         if request.matched_route.name == 'api_tournament_detail':
             list = []
@@ -1085,8 +1096,21 @@ def td_view(request):
             }
 
         dict_places = {}
+        dict_double = {}
         for tournament in event.tournaments:
-            dict_places[tournament.weight] = tournament.places
+            sex = "М" if tournament.typeId == 2 else "Ж"
+            hand = "(правая)" if tournament.hand else "(левая)"
+            dict_places[sex + " " + tournament.weight + " " + hand] = tournament.places
+            for p in tournament.places:
+                if p.players:
+                    if tournament.hand:
+                        p.players.right_scores = p.score
+                    else:
+                        p.players.left_scores = p.score
+
+            if tournament.players[0].left_scores and tournament.players[0].right_scores:
+                tournament.players.sort(key=lambda x: x.left_scores + x.right_scores,reverse=True)
+                dict_double[sex + " " + tournament.weight] = tournament.players
 
         return{
             "event":event,
@@ -1095,7 +1119,8 @@ def td_view(request):
             "list_table":list_table,
             "dict_result":dict_result,
             "root":root,
-            "places":dict_places
+            "places":dict_places,
+            "double":dict_double
         }
     else:
         return HTTPNotFound()
