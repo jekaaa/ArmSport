@@ -35,6 +35,9 @@ a span:hover{
 .edit i:hover,.del i:hover{
     cursor: pointer;
 }
+.edit i{
+    font-size: 22px;
+}
 .card-reveal{
     overflow: hidden;
 }

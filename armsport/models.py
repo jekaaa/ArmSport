@@ -66,6 +66,8 @@ class Player(Base):
     team = Column(Text)
     left_scores = Column(Integer)
     right_scores = Column(Integer)
+    team_mode = Column(Boolean)
+
     eventId = Column(Integer, ForeignKey('event.id'))
 
     event = relationship("Event", backref="players")
@@ -170,6 +172,11 @@ class Event(Base):
     building = Column(Text)
     address = Column(Text)
     image_path = Column(Text)
+    one_mode = Column(Boolean)
+    double_mode = Column(Boolean)
+    team_mode = Column(Boolean)
+    number_in_team = Column(Integer)
+
     userId = Column(Integer,ForeignKey('user.id'))
     typeId = Column(Integer,ForeignKey('type.id'))
 

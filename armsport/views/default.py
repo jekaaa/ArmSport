@@ -14,21 +14,6 @@ from sqlalchemy.exc import DBAPIError
 from sqlalchemy.ext.indexable import index_property
 
 from ..models import *
-'''def sort_result_dict(dict):
-    list = []
-    ex = None
-    for t in dict.items():
-        try:
-            s = t[0].split(' ')[1]
-            s = s.split('к')[0]
-            if(int(s)):
-                list.append(t)
-        except:
-            ex=t
-    list.sort(key=lambda x: int(x[0].split(' ')[1].split('к')[0]))
-    if ex:
-        list.append(ex)
-'''
 from collections import OrderedDict
 
 def fouls(request,number):
@@ -762,7 +747,7 @@ def nt_view(request):
         type = DBSession.query(Type).filter_by(name=typeName).first()
 
         if 'number_table' in request.params:
-            number_table = request.params['number_table']
+            number_table = int(request.params['number_table']) if int(request.params['number_table']) < 11 else 10
         else:
             return HTTPFound(location='/new_tournament')
 
@@ -783,7 +768,6 @@ def nt_view(request):
 
         path = ""
         if 'img' in request.params and request.POST["img"] != "":
-
             try:
                 input_file = request.POST['img'].file
                 file_path = os.path.join('C:/Users/Dexp/Desktop/armsport/armsport/static/download_images',
@@ -806,7 +790,8 @@ def nt_view(request):
         address = request.params['address'] if 'address' in request.params else ""
 
         event = Event(numberTable=number_table,name=name,city=city,date=date,dateEnd=date2,
-                      description=description,building=building,address=address,user=user,type=type,image_path=path)
+                      description=description,building=building,address=address,user=user,type=type,image_path=path,
+                      one_mode=False,double_mode=False,team_mode=False,number_in_team=0)
         DBSession.add(event)
 
         if weight_man and weight_woman:
@@ -881,7 +866,20 @@ def td_view(request):
 
         # Не стартовавшее мероприятие
         if not start:
-
+            if root and 'set_result' in request.params:
+                if "one_mode" in request.params:
+                    event.one_mode = True
+                else:
+                    event.one_mode = False
+                if "double_mode" in request.params:
+                    event.double_mode = True
+                else:
+                    event.double_mode = False
+                if "team_mode" in request.params:
+                    event.team_mode = True
+                else:
+                    event.team_mode = False
+                return HTTPFound(location="/tournament/" + str(event.id))
             # Старт мероприятия
             if root and 'start' in request.params:
                 return_dict = {"event": event,
@@ -973,7 +971,7 @@ def td_view(request):
                             "root": root}
                 # Добавление нового участника
                 player = Player(first_name=first_name,middle_name=middle_name,last_name=last_name,left_hand=random_left,
-                                     right_hand=random_right,age=age,sex=sex,weight=weight,team=team,event=event)
+                                     right_hand=random_right,age=age,sex=sex,weight=weight,team=team,event=event,team_mode=False)
                 DBSession.add(player)
                 # Добавление во все подходящие участнику турниры
                 for tournament in player_tournaments:
@@ -985,6 +983,7 @@ def td_view(request):
                 edit_player(request,event.players)
                 return HTTPFound(location="/tournament/" + str(event.id))
 
+            # Удаление участника
             if root and 'del' in request.params:
                 del_player(request,event.players)
                 return HTTPFound(location="/tournament/" + str(event.id))
@@ -1035,13 +1034,6 @@ def td_view(request):
                 first_game_in_table.first_fouls = fouls(request,1)
                 first_game_in_table.second_fouls = fouls(request,2)
 
-            # Редактирование очков
-            if str(table.number) + "set" in request.params:
-                places = table.tournament.places
-                for place in places:
-                    place.score = request.params[str(place.position) + "place"]
-                return HTTPFound(location="/tournament/" + str(event.id))
-
         #Сортировка словаря со столами и формирование списка со столами, разделенными на 2 части
         list_table = separation_dict_table(dict_table)
 
@@ -1054,8 +1046,6 @@ def td_view(request):
                     if winner:
                         tournament_grid(dict_table,table,split_winner)
                         return HTTPFound(location="/tournament/" + str(event.id))
-
-
 
         if request.matched_route.name == 'api_tournament_detail':
             list = []
@@ -1097,7 +1087,19 @@ def td_view(request):
 
         dict_places = {}
         dict_double = {}
+        list_teams = []
         for tournament in event.tournaments:
+            if root:
+                # Редактирование очков
+                if "set" + str(tournament.typeId) + str(tournament.weight) + "kg" + str(
+                        tournament.hand) in request.params:
+                    places = tournament.places
+                    for place in places:
+                        place.score = request.params[str(place.position) + "place"]
+                    return HTTPFound(location="/tournament/" + str(event.id))
+            for player in tournament.players:
+                if player.team not in list_teams:
+                    list_teams.append(player.team)
             sex = "М" if tournament.typeId == 2 else "Ж"
             hand = "(правая)" if tournament.hand else "(левая)"
             dict_places[sex + " " + tournament.weight + " " + hand] = tournament.places
@@ -1120,7 +1122,8 @@ def td_view(request):
             "dict_result":dict_result,
             "root":root,
             "places":dict_places,
-            "double":dict_double
+            "double":dict_double,
+            "teams":list_teams
         }
     else:
         return HTTPNotFound()

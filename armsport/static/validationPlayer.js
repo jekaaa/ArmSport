@@ -113,7 +113,6 @@ $("[name='close']").click(function () {
 $("[name='winner1'] input,[name='winner2'] input").change(function (event) {
     var pare = $.trim($(this).parent().siblings('[name="names"]').text()).replace(/\s+/g," ");
     $('.c').css('display','block');
-    $('.set').css('display','none');
     $('.modal-content p').text(pare);
     var winner1 = pare.split(' ')[0] + " " + pare.split(' ')[1];
     var winner2 = pare.split(' ')[2] + " " + pare.split(' ')[3];

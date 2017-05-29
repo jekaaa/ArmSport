@@ -68,12 +68,12 @@ $('.edit').click(function () {
     $('.tooltipped').tooltip('remove');
     var list = $(this).siblings();
     console.log(list);
-    var first_name = list[1].innerHTML.split(' ')[1];
-    var middle_name = list[1].innerHTML.split(' ')[0];
-    var last_name = list[1].innerHTML.split(' ')[2];
-    var age = list[2].innerHTML.split(' ')[2];
-    var weight = list[3].innerHTML.split(' ')[1].split('к')[0];
-    var team = list[4].innerHTML.split(' ')[1];
+    var first_name = list[2].innerHTML.split(' ')[1];
+    var middle_name = list[2].innerHTML.split(' ')[0];
+    var last_name = list[2].innerHTML.split(' ')[2];
+    var age = list[3].innerHTML.split(' ')[2];
+    var weight = list[4].innerHTML.split(' ')[1].split('к')[0];
+    var team = list[5].innerHTML.split(' ')[1];
     list.each(function () {
         $(this).remove();
     });
