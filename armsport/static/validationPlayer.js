@@ -48,6 +48,64 @@ $("#player").submit(function () {
 
 $("[name='weight_tournament']").change(function (event) {
     $(this).parent().siblings("[name='sub']").children().click();
+    /*var number = this.id.split('.')[0];
+    var event = this.id.split('.')[1];
+    var card = $(this).parent().parent().parent().parent();
+
+    $(this).parent().parent().parent().remove();
+    console.log($(this).val());
+    $.ajax({
+        url:"/api/v1/tournament/" + event + "?table=" + number + "&weight=" + $(this).val(),
+        success:function(data){
+            console.log(data);
+            var empty = "";
+            var players = "";
+            var fouls = "";
+            var options = data.tournaments;
+            var weight = $(this).val();
+            console.log(options);
+            var options_DOM = "";
+            var li_DOM = "";
+            for (let option of options){
+                var li = "<li>" + option + "</li>";
+                var str = "<option>" + option + "</option>";
+                options_DOM += str;
+                li_DOM += li;
+            }
+            console.log(options_DOM,li_DOM);
+            if (data.pares.length == 0){
+                empty = '<h6 class="center " style="padding:10px">Матчей нет</h6>';
+            }
+            else{
+                players = '<div class="col l12 m12 s12">' + '<h6 class="center">' + 'Тур ' + data.pares[0][0] + '</h6>' +
+                '</div>' + '<div name="winner1" class="col m4 l4 s4 ">' +
+                '<input class="activator" type="radio" id="test1' + number + '" />' +
+                '<label for="test1' + number+ '"></label>' +
+                '</div>' + '<div class="col s4 l4 m4 center">Победитель</div>' +
+                '<div name="winner2" class="col m4 l4 s4">' +
+                '<input class="activator" type="radio" id="test2' + number + '" />' +
+                '<label class="right" for="test2' + number + '"></label>' +
+                '</div>' + '<div name="names" class="col l12 m12 s12">' +
+                '<h6 class="center">' + '<span class="left">' + data.pares[0][1].split(' - ')[0] + '</span>' +
+                '<span class="right">' + data.pares[0][1].split(' - ')[1] + '</span>' +
+                '</h6>' +
+                '</div>';
+            }
+            card.append('<div class="row card-content" style="padding-top: 0;padding-bottom: 0px">' +
+                '<span class="card-title center" style="padding-top:10px">СТОЛ ' + number + '</span>' +
+                '<div class="select-wrapper">' + '<span class="caret">▼</span>' + 
+                '<input type="text" class="select-dropdown" readonly="true" data-activates="select-options-' + number + "." + event +
+                '" value="' + weight + '">' + '<ul id="select-options-' + number + "." + event + '" ' + 'class="dropdown-content select-dropdown">'+
+                li_DOM + '</ul>' + '<select id="select-options-' + number + "." + event + '" name="weight_tournament">' + options_DOM + '</select>' + '</div>'+
+                '<div class="col m12 s12 l12">' +  '<img src="../static/red.png" class="circle" style="height: 40px">' +
+                '<img src="../static/blue.png" class="circle right" style="height: 40px">' + empty + 
+                '</div>' +
+                players +
+                '</div>');
+        }
+    });
+
+    */
 });
 
 //var tempChecked = null;

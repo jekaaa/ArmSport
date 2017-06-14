@@ -17,7 +17,7 @@
                         <div class="row card-content" style="padding-top: 0;padding-bottom: 0px">
                           <form method="post">
                               <span class="card-title center" style="padding-top:10px">СТОЛ {{ table[0].number }}</span>
-                              <select name="weight_tournament">
+                              <select id="{{table[0].number}}.{{event.id}}" name="weight_tournament">
                                 {% for tournament in tournaments %}
                                     {% if table[0].tournament == tournament %}<option selected>{% else %}<option>
                                     {% endif %}{% if tournament.typeId == 2 %}М {% else %}Ж {% endif %}{{ tournament.weight }}кг {% if tournament.hand %}(правая){% else %}(левая){% endif %}
@@ -291,7 +291,13 @@
             </div>
             {% if event.description %}<div class="divider"></div>{% endif %}
             <div>
-                {% if event.description %}<p style="padding:10px">{{ event.description }}</p>{% endif %}
+                {% if event.description %}
+                    <p style="padding:10px">
+                        {% for line in event.description.splitlines() %}
+                            {{ line }}<br>
+                        {% endfor %}
+                    </p>
+                {% endif %}
                 {% if event.building or event.address%}<div class="divider"></div>
                 <p style="padding:10px">{{ event.building }}{% if event.address %}, {{event.address }}{% endif %}</p>
                 {% endif %}
@@ -309,7 +315,7 @@
         {% else %}
             <div class="row" style="margin-top: 1%">
                 {% for weight in dict_result %}
-                <div class="col s6 m6 l6" >
+                <div class="col s12 m12 l12" >
                     <div class="card">
                         <div class="row card-content" style="padding-top: 0;padding-bottom: 0px">
                             <span class="card-title center" style="padding-top:10px">{{ weight }}</span>
@@ -342,24 +348,78 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="red white-text">
-        {% for p in places %}
-            {{ p }}
-            {% for pl in places[p] %}
-                <p>{{ pl.position }}-{{ pl.players.middle_name }} {{ pl.players.first_name }} {{ pl.players.last_name }}-{{ pl.score }}</p>
-            {% endfor %}
-        {% endfor %}
-        {% for p in double %}
-            {{ p }}
-            {% for pl in double[p] %}
-                <p>{{ pl.middle_name }} {{ pl.first_name }} {{ pl.last_name }}-{{ pl.left_scores + pl.right_scores }}</p>
-            {% endfor %}
-        {% endfor %}
-        </div>
+            {%if event.one_mode%}
+            <div class="row">
+                {% for p in places %}
+                <div class="col s12 m12 l12" >
+                    <div class="card">
+                        <div class="row card-content" style="padding-top: 0;padding-bottom: 0px">
+                            <span class="card-title center" style="padding-top:10px">{{ p }}</span>
+                            <div class="divider"></div>
+                            <table>
+                                <thead>
+                                  <tr>
+                                      <th>Место</th>
+                                      <th>ФИО Участника</th>
+                                      <th>Очки</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pl in places[p] %}
+                                        <tr>
+                                            <td>{{ pl.position }}</td>
+                                            {% if pl.players.middle_name %} <td>{{ pl.players.middle_name }} {{ pl.players.first_name }} {{ pl.players.last_name }}</td>{%else%}<td>Еще не определен</td>{%endif%}
+                                            <td>{{ pl.score }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            
+                {% endfor %}
+            </div>
+            {%endif%}
+            {%if event.double_mode%}
+            <div class="row">
+                {% for p in double %}
+                <div class="col s12 m12 l12" >
+                    <div class="card">
+                        <div class="row card-content" style="padding-top: 0;padding-bottom: 0px">
+                            <span class="card-title center" style="padding-top:10px">{{ p }} "Двоеборье"</span>
+                            <div class="divider"></div>
+                            <table>
+                                <thead>
+                                  <tr>
+                                      <th>Место</th>
+                                      <th>ФИО Участника</th>
+                                      <th>Очки</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pl in double[p] %}
+                                        <tr>
+                                            <td>{{ double[p].index(pl) + 1 }}</td>
+                                            {% if pl.middle_name %} <td>{{ pl.middle_name }} {{ pl.first_name }} {{ pl.last_name }}</td>{%else%}<td>Еще не определен</td>{%endif%}
+                                            <td>{{ pl.left_scores + pl.right_scores}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            
+                {% endfor %}
+            </div>
+            {%endif%}
+        
         {% endif %}
     </div>
 {% endblock %}
 {% block four_tab %}
+    {% if root %}
     <div id="test4" class="col s12 m12 l12" >
         <div class="row">
             <div class="col s12 m12 l12">
@@ -371,7 +431,7 @@
                                 <div class="switch col m12 l12 s12" style="margin-bottom: 20px">
                                     <label>
                                       Выкл
-                                      <input name="one_mode" type="checkbox" {% if event.one_mode %}checked{% endif %}>
+                                      <input name="one_mode" type="checkbox" {% if start %}disabled{% endif %} {% if event.one_mode %}checked{% endif %}>
                                       <span class="lever"></span>
                                       Вкл
                                     </label>
@@ -380,7 +440,7 @@
                                 <div class="switch col m12 l12 s12" style="margin-bottom: 20px">
                                     <label>
                                       Выкл
-                                      <input name="double_mode" type="checkbox" {% if event.double_mode %}checked{% endif %}>
+                                      <input name="double_mode" type="checkbox" {% if start %}disabled{% endif %} {% if event.double_mode %}checked{% endif %}>
                                       <span class="lever"></span>
                                       Вкл
                                     </label>
@@ -396,7 +456,7 @@
                                 <span style="margin-left: 40px">Командный</span>
                             </div>
 
-                                <div class="col offset-l4 l4 offset-m4 m4 offset-s4 s4" >
+                                <div class="col offset-l4 l4 offset-m4 m4 offset-s4 s4">
                                     <button name="set_result" type="submit" class="sub waves-effect waves-light">Готово</button>
                                 </div>
                             </form>
@@ -446,4 +506,5 @@
             </div>
         </div>
     </div>
+    {% endif %}
 {% endblock %}

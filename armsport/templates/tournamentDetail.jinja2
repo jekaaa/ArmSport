@@ -7,9 +7,9 @@
 {% block avatar %}
     <div class="card-content center">
         {% if event.image_path %}
-            <img class="circle" style="width: 8rem;height: 8rem" src="../static/{{ event.image_path }}"/>
+            <img class="circle" style="width: 10rem;height: 10rem" src="../static/{{ event.image_path }}"/>
         {% else %}
-            <img class="circle" style="width: 8rem;height: 8rem" src="../static/logo.png"/>
+            <img class="circle" style="width: 10rem;height: 10rem" src="../static/logo.png"/>
         {% endif %}
         <p style="font-size: 18px;margin-bottom:0">{{ event.name}}</p>
     </div>
@@ -18,7 +18,7 @@
         {% if root %}<li class="tab"><a class="active"href="#test1">Организация</a></li>{% endif %}
         <li class="tab"><a href="#test2">Общие сведения</a></li>
         <li class="tab"><a href="#test3">Результаты</a></li>
-        <li class="tab"><a href="#test4">Настройки</a></li>
+        {% if root %}<li class="tab"><a href="#test4">Настройки</a></li>{% endif %}
       </ul>
     </div>
 {% endblock %}

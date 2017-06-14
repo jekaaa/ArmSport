@@ -3,6 +3,10 @@
  */
 $(document).ready(function() {
     $('select').material_select();
+    $('.datepicker').pickadate({
+        format: 'dd.mm.yyyy',
+        selectYears: 20
+  });
 });
 
 $("#name").change(function () {

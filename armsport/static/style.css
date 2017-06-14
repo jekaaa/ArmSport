@@ -10,7 +10,7 @@ a span:hover{
 }
 .sub{
     box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    background-color: #007769;
+    background-color: #008080;
     width: 100%;
     padding: 0px;
     font-size: 14px;
@@ -26,7 +26,7 @@ a span:hover{
     transition: all 0.218s;
 }
 .sub:hover{
-    background-color: #009080;
+    background-color: #009090;
     cursor: pointer;
 }
 .sub span{

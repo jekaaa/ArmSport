@@ -5,7 +5,7 @@ import os
 import uuid
 import shutil
 from pyramid.response import Response
-from pyramid.view import view_config,view_defaults
+from pyramid.view import view_config,view_defaults,notfound_view_config
 from pyramid.httpexceptions import (
 HTTPFound,
 HTTPNotFound,
@@ -439,6 +439,59 @@ def games_on_table(table,games):
             games.append(("Финал 2 тур", table.tournament.final[1]))
     return games
 
+def games_on_table_api(table,games):
+    for w in table.tournament.win_grids:
+        if not w.winner and len(w.games) > 0 and w.tour == 1:
+            first_gamer = w.games[0].middle_name + " " + w.games[0].first_name
+            second_gamer = w.games[1].middle_name + " " + w.games[1].first_name if len(w.games)==2 else "Соперник еще не известен"
+            games.append((str(w.tour) + "A",first_gamer + " - " + second_gamer))
+    i = 2
+    j = 1
+
+    tours = math.ceil(math.log2(len(table.tournament.players)))
+
+    while (i <= tours):
+        for w in table.tournament.win_grids:
+            if not w.winner and len(w.games) > 0 and w.tour == i:
+                first_gamer = w.games[0].middle_name + " " + w.games[0].first_name
+                second_gamer = w.games[1].middle_name + " " + w.games[1].first_name if len(w.games)==2 else "Соперник еще не известен"
+                games.append((str(w.tour) + "A", first_gamer + " - " + second_gamer))
+
+        for w in table.tournament.lose_grids:
+            if not w.winner and len(w.games) > 0 and w.tour == j:
+                first_gamer = w.games[0].middle_name + " " + w.games[0].first_name
+                second_gamer = w.games[1].middle_name + " " + w.games[1].first_name if len(w.games)==2 else "Соперник еще не известен"
+                games.append((str(w.tour) + "B", first_gamer + " - " + second_gamer))
+        j += 1
+        i += 1
+
+    max_tours = table.tournament.lose_grids[-1].tour
+
+    while (tours <= max_tours):
+        for w in table.tournament.lose_grids:
+            if not w.winner and len(w.games)>0 and w.tour == tours:
+                first_gamer = w.games[0].middle_name + " " + w.games[0].first_name
+                second_gamer = w.games[1].middle_name + " " + w.games[1].first_name if len(w.games)==2 else "Соперник еще не известен"
+                games.append((str(w.tour) + "B", first_gamer + " - " + second_gamer))
+        tours += 1
+
+    if not table.tournament.semifinal[0].winner and len(table.tournament.semifinal[0].games) > 0:
+        first_gamer = table.tournament.semifinal[0].games[0].middle_name + " " + table.tournament.semifinal[0].games[0].first_name
+        second_gamer = table.tournament.semifinal[0].games[1].middle_name + " " + table.tournament.semifinal[0].games[1].first_name if len(table.tournament.semifinal[0].games)==2 else "Соперник еще не известен"
+        games.append(("Полуфинал", first_gamer + " - " + second_gamer))
+
+    if not table.tournament.final[0].winner and len(table.tournament.final[0].games) > 0:
+        first_gamer = table.tournament.final[0].games[0].middle_name + " " + table.tournament.final[0].games[0].first_name
+        second_gamer = table.tournament.final[0].games[1].middle_name + " " + table.tournament.final[0].games[1].first_name if len(table.tournament.final[0].games)==2 else "Соперник еще не известен"
+        games.append(("Финал 1 тур", first_gamer + " - " + second_gamer))
+
+    if len(table.tournament.final) > 1:
+        if not table.tournament.final[1].winner and len(table.tournament.final[1].games) > 0:
+            first_gamer = table.tournament.final[1].games[0].middle_name + " " + table.tournament.final[1].games[0].first_name
+            second_gamer = table.tournament.final[1].games[1].middle_name + " " + table.tournament.final[1].games[1].first_name if len(table.tournament.final[1].games)==2 else "Соперник еще не известен"
+            games.append(("Финал 2 тур", first_gamer + " - " + second_gamer))
+    return games
+
 # Перевод даты в нормальную)
 def convert_time(date):
     if date != "":
@@ -674,6 +727,12 @@ def tournaments_for_player(tournaments_left,tournaments_right,weight):
             list.append(t)
     return list
 
+
+@notfound_view_config(renderer='templates/notFound.jinja2')
+def not_found(request):
+    request.response.status = 404
+    return {}
+
 @view_config(route_name='all_tournaments', renderer='templates/allTournaments.jinja2')
 @view_config(route_name='api_all_tournaments', renderer='myjson')
 def at_view(request):
@@ -757,12 +816,12 @@ def nt_view(request):
             return HTTPFound(location='/new_tournament')
 
         if 'date' in request.params:
-            date = convert_time(request.params['date'])
+            date = request.params['date']
         else:
             date = ""
 
         if 'date2' in request.params:
-            date2 = convert_time(request.params['date2'])
+            date2 = request.params['date2']
         else:
             date2 = ""
 
@@ -789,46 +848,30 @@ def nt_view(request):
         building = request.params['build'] if 'build' in request.params else ""
         address = request.params['address'] if 'address' in request.params else ""
 
+
         event = Event(numberTable=number_table,name=name,city=city,date=date,dateEnd=date2,
                       description=description,building=building,address=address,user=user,type=type,image_path=path,
                       one_mode=False,double_mode=False,team_mode=False,number_in_team=0)
         DBSession.add(event)
 
-        if weight_man and weight_woman:
-            weight_man = weight_man.split(',')
-            type = DBSession.query(Type).filter_by(id=2).first()
+        weight_man = weight_man.split(',')
+        type = DBSession.query(Type).filter_by(id=2).first()
 
-            for weight in weight_man:
-                if weight != "":
-                    t = Tournament(hand=0, event=event, type=type, weight=weight.strip())
-                    t2 = Tournament(hand=1, event=event, type=type, weight=weight.strip())
-                    DBSession.add_all([t,t2])
+        for weight in weight_man:
+            if weight != "":
+                t = Tournament(hand=0, event=event, type=type, weight=weight.strip())
+                t2 = Tournament(hand=1, event=event, type=type, weight=weight.strip())
+                DBSession.add_all([t, t2])
 
-            weight_woman = weight_woman.split(',')
-            type = DBSession.query(Type).filter_by(id=1).first()
-            for weight in weight_woman:
-                if weight != "":
-                    t = Tournament(hand=0, event=event, type=type, weight=weight.strip())
-                    t2 = Tournament(hand=1, event=event, type=type, weight=weight.strip())
-                    DBSession.add_all([t,t2])
-        else:
-            if weight_man:
-                type = DBSession.query(Type).filter_by(id=2).first()
-                weight_man = weight_man.split(',')
-                for weight in weight_man:
-                    if weight != "":
-                        t = Tournament(hand=0,event=event,type=type,weight=weight.strip())
-                        t2 = Tournament(hand=1, event=event, type=type, weight=weight.strip())
-                        DBSession.add_all([t,t2])
+        weight_woman = weight_woman.split(',')
+        type = DBSession.query(Type).filter_by(id=1).first()
 
-            if weight_woman:
-                type = DBSession.query(Type).filter_by(id=1).first()
-                weight_woman = weight_woman.split(',')
-                for weight in weight_woman:
-                    if weight != "":
-                        t = Tournament(hand=0, event=event, type=type, weight=weight.strip())
-                        t2 = Tournament(hand=1, event=event, type=type, weight=weight.strip())
-                        DBSession.add_all([t,t2])
+        for weight in weight_woman:
+            if weight != "":
+                t = Tournament(hand=0, event=event, type=type, weight=weight.strip())
+                t2 = Tournament(hand=1, event=event, type=type, weight=weight.strip())
+                DBSession.add_all([t, t2])
+
 
         return HTTPFound(location='/my_tournaments')
     return {}
@@ -895,35 +938,6 @@ def td_view(request):
                         return return_dict
                 first_tour(tournaments)
                 return HTTPFound(location="/tournament/"+str(event.id))
-
-            if request.matched_route.name == 'api_tournament_detail':
-                list = []
-
-                for tournament in tournaments:
-                    players = []
-                    for player in tournament.players:
-                        players.append({
-                            "id": player.id,
-                            "first_name": player.first_name,
-                            "middle_name": player.middle_name,
-                            "last_name": player.last_name,
-                            "age": player.age,
-                            "sex": player.sex,
-                            "weight": player.weight,
-                            "team": player.team,
-                            "event_id": player.eventId
-                        })
-
-                    list.append({
-                        "id": tournament.id,
-                        "hand": tournament.hand,
-                        "type_id": tournament.typeId,
-                        "weight": tournament.weight,
-                        "players": players
-                    })
-                return {
-                    "tournaments": list
-                }
 
             # Добавление участника
             if root and 'settings' in request.params:
@@ -1048,6 +1062,37 @@ def td_view(request):
                         return HTTPFound(location="/tournament/" + str(event.id))
 
         if request.matched_route.name == 'api_tournament_detail':
+            if "table" and "weight" in request.params:
+                weight = request.params['weight']
+                table = ""
+                for t in event.tables:
+                    if t.number == int(request.params["table"]):
+                        table = t
+                        break
+
+                type = DBSession.query(Type).filter_by(id=1).first() if 'Ж' in weight else DBSession.query(Type).filter_by(id=2).first()
+                hand = 1 if 'правая' in weight else 0
+                parse_weight = weight.split('к')[0][2:]
+                if parse_weight[-1] == " ":
+                    parse_weight = parse_weight[:-1] + "+"
+                    weight = weight.split('к')[0][:2] + parse_weight + "к" + weight.split('к')[1]
+                t = DBSession.query(Tournament).filter_by(event=event, weight=parse_weight,hand=hand,type=type).first()
+                table.tournament = t
+                pares = games_on_table_api(table,[])
+                list_tournaments = []
+                for tournament in tournaments:
+                    type = "М " if tournament.typeId == 2 else "Ж "
+                    weight = tournament.weight + "кг "
+                    hand = "(правая)" if tournament.hand else "(левая)"
+                    
+                    list_tournaments.append(type+weight+hand) 
+                return{
+                    "number":table.number,
+                    "weight":weight,
+                    "pares":pares,
+                    "tournaments":list_tournaments
+                }
+
             list = []
             list2 = []
 
@@ -1074,20 +1119,33 @@ def td_view(request):
                     "players": players
                 })
 
-            for table in list_table:
-                list.append({
-                    "number": table[0].number,
-                    "tournament_id": table[0].tournamentId,
-                    "games": table[1]
-                })
+            list3 = []
+            for list in list_table:
+                for table in list:
+                    sex = "М " if table[0].tournament.typeId == 2 else "Ж "
+                    weight = table[0].tournament.weight 
+                    hand = " (правая)" if table[0].tournament.hand else" (левая)"
+                    pares = []
+                    for pare in table[1]:
+                        first_name1 = pare[1].games[0].first_name
+                        last_name1 = pare[1].games[0].last_name
+                        first_name2 = pare[1].games[1].first_name
+                        last_name2 = pare[1].games[1].last_name
+                        pares.append((pare[0],last_name1 + " " + first_name1 + " - " + last_name2 + " " + first_name2))
+                    list3.append({
+                        "number":table[0].number,
+                        "weight":sex+weight+"кг"+hand,
+                        "pares":pares
+                    })
             return {
-                "tables": list,
+                "tables": list3,
                 "tournaments":list2
             }
 
         dict_places = {}
         dict_double = {}
         list_teams = []
+
         for tournament in event.tournaments:
             if root:
                 # Редактирование очков
@@ -1113,6 +1171,7 @@ def td_view(request):
             if tournament.players[0].left_scores and tournament.players[0].right_scores:
                 tournament.players.sort(key=lambda x: x.left_scores + x.right_scores,reverse=True)
                 dict_double[sex + " " + tournament.weight] = tournament.players
+        
 
         return{
             "event":event,

@@ -144,8 +144,3 @@ $('.edit').click(function () {
 });
 
 
-$('.settings').click(function () {
-    $('.c').css('display','none');
-    $('.set').css('display','block');
-});
-
